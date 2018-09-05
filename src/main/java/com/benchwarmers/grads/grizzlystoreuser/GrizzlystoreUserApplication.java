@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GrizzlystoreUserApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(GrizzlystoreUserApplication.class, args);
+        System.out.println("Hello user repo..");
     }
+
+
 }
