@@ -38,6 +38,9 @@ public class Account {
     @Temporal(TemporalType.TIMESTAMP)
     private Date DateTime;
 
+    @OneToOne(mappedBy = "userAccount")
+    private Profile profile;
+
 
 
 
