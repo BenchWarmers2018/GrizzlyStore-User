@@ -23,18 +23,18 @@ public class Account {
     @Column(name = "id_Account", updatable = false, nullable = false)
     private UUID id_account;
 
-    @Column(name = "account_EmailAddress", nullable = false, unique = true)
+    @Column(name = "account_emailaddress", nullable = false, unique = true)
     @Email
     private String account_EmailAddress;
 
     @Column(name = "account_Password", nullable = false)
     private String account_Password;
 
-    @Column(name = "account_IsAdmin", nullable = false)
-    private boolean account_IsAdmin;
+    @Column(name = "account_isadmin", nullable = false)
+    private boolean account_IsAdmin = false;
 
     @CreationTimestamp
-    @Column(name = "DateTime", nullable = false)
+    @Column(name = "last_modified", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date DateTime;
 

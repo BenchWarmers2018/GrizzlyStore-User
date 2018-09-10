@@ -14,13 +14,13 @@ public class Profile {
     @Column(name = "id_Profile", nullable = false)
     private Integer id_Profile;
 
-    @Column(name = "profile_FirstName", nullable = false)
+    @Column(name = "profile_firstname", nullable = false)
     private String profile_FirstName;
 
-    @Column(name = "profile_LastName", nullable = false)
+    @Column(name = "profile_lastname", nullable = false)
     private String profile_LastName;
 
-    @Column(name = "profile_PhoneNumber", nullable = false)
+    @Column(name = "profile_phonenumber", nullable = false)
     private String profile_PhoneNumber;
 
     @Column(name = "profile_Image", nullable = false)
