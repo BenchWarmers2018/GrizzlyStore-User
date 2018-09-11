@@ -12,24 +12,24 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_Profile", nullable = false)
-    private Integer id_Profile;
+    private Integer idProfile;
 
     @Column(name = "profile_FirstName", nullable = false)
-    private String profile_FirstName;
+    private String profileFirstName;
 
     @Column(name = "profile_LastName", nullable = false)
-    private String profile_LastName;
+    private String profileLastName;
 
     @Column(name = "profile_PhoneNumber", nullable = false)
-    private String profile_PhoneNumber;
+    private String profilePhoneNumber;
 
     @Column(name = "profile_Image", nullable = false)
-    private String profile_Image;
+    private String profileImage;
 
     @CreationTimestamp
     @Column(name = "last_modified", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date last_modified;
+    private Date lastModified;
 
 
     @OneToOne(cascade =  CascadeType.ALL,
@@ -48,52 +48,52 @@ public class Profile {
         this.userAccount = userAccount;
     }
 
-    public Integer getId_Profile() {
-        return id_Profile;
+    public Integer getIdProfile() {
+        return idProfile;
     }
 
-    public void setId_Profile(Integer id_Profile) {
-        this.id_Profile = id_Profile;
+    public void setIdProfile(Integer id_Profile) {
+        this.idProfile = id_Profile;
     }
 
-    public String getProfile_FirstName() {
-        return profile_FirstName;
+    public String getProfileFirstName() {
+        return profileFirstName;
     }
 
-    public void setProfile_FirstName(String profile_FirstName) {
-        this.profile_FirstName = profile_FirstName;
+    public void setProfileFirstName(String profile_FirstName) {
+        this.profileFirstName = profile_FirstName;
     }
 
-    public String getProfile_LastName() {
-        return profile_LastName;
+    public String getProfileLastName() {
+        return profileLastName;
     }
 
-    public void setProfile_LastName(String profile_LastName) {
-        this.profile_LastName = profile_LastName;
+    public void setProfileLastName(String profile_LastName) {
+        this.profileLastName = profile_LastName;
     }
 
-    public String getProfile_PhoneNumber() {
-        return profile_PhoneNumber;
+    public String getProfilePhoneNumber() {
+        return profilePhoneNumber;
     }
 
-    public void setProfile_PhoneNumber(String profile_PhoneNumber) {
-        this.profile_PhoneNumber = profile_PhoneNumber;
+    public void setProfilePhoneNumber(String profile_PhoneNumber) {
+        this.profilePhoneNumber = profile_PhoneNumber;
     }
 
-    public String getProfile_Image() {
-        return profile_Image;
+    public String getProfileImage() {
+        return profileImage;
     }
 
-    public void setProfile_Image(String profile_Image) {
-        this.profile_Image = profile_Image;
+    public void setProfileImage(String profile_Image) {
+        this.profileImage = profile_Image;
     }
 
-    public Date getLast_modified() {
-        return last_modified;
+    public Date getLastModified() {
+        return lastModified;
     }
 
-    public void setLast_modified(Date last_modified) {
-        this.last_modified = last_modified;
+    public void setLastModified(Date last_modified) {
+        this.lastModified = last_modified;
     }
 
 
