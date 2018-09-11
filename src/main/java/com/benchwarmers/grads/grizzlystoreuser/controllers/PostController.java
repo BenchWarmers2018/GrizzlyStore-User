@@ -33,7 +33,7 @@ public class PostController
         }
         //Password is set here as well as admin is set to false by default
         newUser.setAccountPassword(user.getAccountPassword());
-        newUser.setAccountIsAdmin(false);
+        newUser.setAdminStatus(false);
 
         //Also need to check for .com at end of email
         //Function checks if email address already exists in database and that it passes the checks beforehand

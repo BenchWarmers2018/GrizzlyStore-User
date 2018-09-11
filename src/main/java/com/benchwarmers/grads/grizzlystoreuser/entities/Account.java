@@ -71,8 +71,8 @@ public class Account {
         return accountIsAdmin;
     }
 
-    public void setAdminStatus(boolean account_IsAdmin) {
-        return accountIsAdmin;
+    public void setAdminStatus(boolean status) {
+        this.accountIsAdmin = status;
     }
 
     public Date getLastModified() {
