@@ -36,7 +36,7 @@ public class TestController {
         tempP.setProfile_PhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
         profileRepo.save(tempP);
-;
+
         return tempP;
     }
 }

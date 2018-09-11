@@ -21,70 +21,65 @@ public class Account {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id_Account", updatable = false, nullable = false)
-    private UUID id_account;
+    private UUID idAccount;
 
     @Column(name = "account_EmailAddress", nullable = false, unique = true)
     @Email
-    private String account_EmailAddress;
+    private String accountEmailAddress;
 
     @Column(name = "account_Password", nullable = false)
-    private String account_Password;
+    private String accountPassword;
 
     @Column(name = "account_IsAdmin", nullable = false)
-    private boolean account_IsAdmin;
+    private boolean accountIsAdmin;
 
     @CreationTimestamp
     @Column(name = "DateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date DateTime;
+    private Date lastModified;
 
     @OneToOne(mappedBy = "userAccount")
     private Profile profile;
 
-
-
-
     //Getter and Setters
 
-    public UUID getId_account() {
-        return id_account;
+    public UUID getIdAccount() {
+        return idAccount;
     }
 
-    public void setId_account(UUID id_account) {
-        this.id_account = id_account;
+    public void setIdAccount(UUID id_account) {
+        this.idAccount = id_account;
     }
 
-    public String getAccount_EmailAddress() {
-        return account_EmailAddress;
+    public String getAccountEmailAddress() {
+        return accountEmailAddress;
     }
 
     public void setAccount_EmailAddress(String account_EmailAddress) {
-        this.account_EmailAddress = account_EmailAddress;
+        this.accountEmailAddress = account_EmailAddress;
     }
 
-    public String getAccount_Password() {
-        return account_Password;
+    public String getAccountPassword() {
+        return accountPassword;
     }
 
     public void setAccount_Password(String account_Password) {
-        this.account_Password = account_Password;
+        this.accountPassword = account_Password;
     }
 
-    public boolean isAccount_IsAdmin() {
-        return account_IsAdmin;
+    public boolean isAccountIsAdmin() {
+        return accountIsAdmin;
     }
 
     public void setAccount_IsAdmin(boolean account_IsAdmin) {
-        this.account_IsAdmin = account_IsAdmin;
+        this.accountIsAdmin = account_IsAdmin;
     }
 
-    public Date getDateTime() {
-        return DateTime;
+    public Date getLastModified() {
+        return lastModified;
     }
 
-    public void setDateTime(Date dateTime) {
-        DateTime = dateTime;
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
-
-
 }
