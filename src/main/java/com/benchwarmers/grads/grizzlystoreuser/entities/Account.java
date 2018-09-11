@@ -55,7 +55,7 @@ public class Account {
         return accountEmailAddress;
     }
 
-    public void setAccount_EmailAddress(String account_EmailAddress) {
+    public void setAccountEmailAddress(String account_EmailAddress) {
         this.accountEmailAddress = account_EmailAddress;
     }
 
@@ -63,7 +63,7 @@ public class Account {
         return accountPassword;
     }
 
-    public void setAccount_Password(String account_Password) {
+    public void setAccountPassword(String account_Password) {
         this.accountPassword = account_Password;
     }
 
@@ -71,7 +71,7 @@ public class Account {
         return accountIsAdmin;
     }
 
-    public void setAccount_IsAdmin(boolean account_IsAdmin) {
+    public void setAccountIsAdmin(boolean account_IsAdmin) {
         this.accountIsAdmin = account_IsAdmin;
     }
 
