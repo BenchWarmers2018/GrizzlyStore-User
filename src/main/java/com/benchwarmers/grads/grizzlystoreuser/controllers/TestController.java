@@ -25,6 +25,7 @@ public class TestController {
     {
         Account tempA = new Account();
         tempA.setAccountEmailAddress("avi@gmail.com");
+        createNewUserAccount
         tempA.setAccountIsAdmin(false);
         tempA.setAccountPassword("password");
         accRepo.save(tempA);
