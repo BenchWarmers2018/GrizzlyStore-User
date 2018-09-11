@@ -67,12 +67,12 @@ public class Account {
         this.accountPassword = account_Password;
     }
 
-    public boolean isAccountIsAdmin() {
+    public boolean isAdmin() {
         return accountIsAdmin;
     }
 
-    public void setAccountIsAdmin(boolean account_IsAdmin) {
-        this.accountIsAdmin = account_IsAdmin;
+    public void setAdminStatus(boolean account_IsAdmin) {
+        return accountIsAdmin;
     }
 
     public Date getLastModified() {
