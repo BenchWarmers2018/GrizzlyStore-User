@@ -25,15 +25,16 @@ public class TestController {
     {
         Account tempA = new Account();
         tempA.setAccountEmailAddress("avi@gmail.com");
-        tempA.setAccount_IsAdmin(false);
-        tempA.setAccount_Password("password");
+        createNewUserAccount
+        tempA.setAccountIsAdmin(false);
+        tempA.setAccountPassword("password");
         accRepo.save(tempA);
 
         Profile tempP = new Profile();
-        tempP.setProfile_FirstName("avtar");
-        tempP.setProfile_LastName("singh");
-        tempP.setProfile_Image("image");
-        tempP.setProfile_PhoneNumber("0403566491");
+        tempP.setProfileFirstName("avtar");
+        tempP.setProfileLastName("singh");
+        tempP.setProfileImage("image");
+        tempP.setProfilePhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
         profileRepo.save(tempP);
 

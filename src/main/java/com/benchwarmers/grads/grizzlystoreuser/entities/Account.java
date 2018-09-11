@@ -31,7 +31,7 @@ public class Account {
     private String accountPassword;
 
     @Column(name = "account_IsAdmin", nullable = false)
-    private boolean accountIsAdmin;
+    private boolean accountIsAdmin = false;
 
     @CreationTimestamp
     @Column(name = "DateTime", nullable = false)
@@ -63,7 +63,7 @@ public class Account {
         return accountPassword;
     }
 
-    public void setAccount_Password(String account_Password) {
+    public void setAccountPassword(String account_Password) {
         this.accountPassword = account_Password;
     }
 
@@ -71,7 +71,7 @@ public class Account {
         return accountIsAdmin;
     }
 
-    public void setAccount_IsAdmin(boolean account_IsAdmin) {
+    public void setAccountIsAdmin(boolean account_IsAdmin) {
         this.accountIsAdmin = account_IsAdmin;
     }
 
