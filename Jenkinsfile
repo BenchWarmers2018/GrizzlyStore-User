@@ -22,7 +22,7 @@ pipeline {
       }
       stage('Deploy') {
          steps {
-            sh 'bash ./deploy.sh
+            sh 'bash ./deploy.sh'
             /* sh 'mvn spring-boot:run'  java -jar grizzly-store-spring-1.0-SNAPSHOT.jar*/
          }
       }
