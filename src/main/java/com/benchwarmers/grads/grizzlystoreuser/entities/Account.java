@@ -55,7 +55,7 @@ public class Account {
         return accountEmailAddress;
     }
 
-    public void setAccount_EmailAddress(String account_EmailAddress) {
+    public void setAccountEmailAddress(String account_EmailAddress) {
         this.accountEmailAddress = account_EmailAddress;
     }
 

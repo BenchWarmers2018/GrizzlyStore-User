@@ -24,7 +24,7 @@ public class TestController {
     public Profile seedData()
     {
         Account tempA = new Account();
-        tempA.setAccount_EmailAddress("avi@gmail.com");
+        tempA.setAccountEmailAddress("avi@gmail.com");
         tempA.setAccount_IsAdmin(false);
         tempA.setAccount_Password("password");
         accRepo.save(tempA);
