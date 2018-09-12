@@ -1,6 +1,5 @@
 package com.benchwarmers.grads.grizzlystoreuser;
 
-import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
@@ -53,28 +52,12 @@ public class JsonResponse {
             entities.put(i + 1, listOfEntities.get(i));
     }
 
-    public Map<String, Object> getBody() {
-        return body;
-    }
-
-    public void setBody(Map<String, Object> body) {
-        this.body = body;
-    }
-
     public Map<Integer, Object> getEntities() {
         return entities;
     }
 
-    public void setEntities(Map<Integer, Object> entities) {
-        this.entities = entities;
-    }
-
     public Map<Integer, String> getErrors() {
         return errors;
-    }
-
-    public void setErrors(Map<Integer, String> errors) {
-        this.errors = errors;
     }
 
     public ResponseEntity createResponse() {
