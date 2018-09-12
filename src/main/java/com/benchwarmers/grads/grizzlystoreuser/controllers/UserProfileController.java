@@ -19,13 +19,7 @@ import java.util.UUID;
 public class UserProfileController {
 
     @Autowired
-    private Account_Repository account_repository;
-
-    @Autowired
     private Profile_Repository profile_repository;
-
-    private Session session;
-    private SessionFactory sessionFactory;
 
     @PostMapping(path = "/profiles") // Map ONLY POST Requests
     public @ResponseBody
@@ -40,10 +34,4 @@ public class UserProfileController {
         return ResponseEntity.ok(profile);
     }
 
-    @PostMapping(path = "/account") // Map ONLY GET Requests
-    public @ResponseBody
-    void getUserAccount() {
-        Account account = account_repository.findAccountByAccountEmailAddress("avi@gmail.com");
-        System.out.println(account);
-    }
 }
