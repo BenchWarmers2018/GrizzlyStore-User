@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping(path = "/one")
-public class PostController
+@RequestMapping(path = "/register")
+public class RegisterController
 {
     @Autowired
     Account_Repository newAccount;
-    @RequestMapping(path = "/newAccount", method = RequestMethod.POST)
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
     public ResponseEntity createProfile(@RequestBody Account user)
     {
         //Variable used to check if email contains '@' and followed by '.'
@@ -52,6 +52,7 @@ public class PostController
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
     }
+    //This function checks if an email address contains an @ and followed by a '.'
     public static boolean isValid(String email)
     {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
