@@ -16,8 +16,11 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class GrizzlystoreUserApplicationTests {
+
+    @Test
+    public void sampleTest() {
+        Assert.assertEquals(1, 1);
+    }
 
 }
