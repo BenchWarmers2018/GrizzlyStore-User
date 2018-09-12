@@ -75,7 +75,7 @@ public class GrizzlystoreUserProfileTests {
         Profile newProfile = mockedProfileRepository.save(new Profile());
         System.out.println("HEYA " + newAccount.getIdAccount());
         MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/profiles")
+                MockMvcRequestBuilders.post("/user/profile")
                         .accept(MediaType.ALL)
                         .param("accountID", newAccount.getIdAccount().toString())
                         .contentType(MediaType.ALL))
