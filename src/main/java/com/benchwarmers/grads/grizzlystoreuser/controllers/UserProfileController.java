@@ -15,13 +15,13 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(path = "/")
+@RequestMapping(path = "/user")
 public class UserProfileController {
 
     @Autowired
     private Profile_Repository profile_repository;
 
-    @PostMapping(path = "/profiles") // Map ONLY POST Requests
+    @PostMapping(path = "/profile") // Map ONLY POST Requests
     public @ResponseBody
     ResponseEntity getUserProfile(@RequestParam String accountID) {
         System.out.println(accountID);
