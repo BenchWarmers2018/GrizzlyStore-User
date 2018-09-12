@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 public class JsonResponse {
-    Map<String, Object> body = new HashMap<String, Object>();
-    Map<Integer, Object> entities = new HashMap<Integer, Object>();
-    Map<Integer, String> errors = new HashMap<Integer, String>();
-    HttpStatus status;
+    private Map<String, Object> body = new HashMap<String, Object>();
+    private Map<Integer, Object> entities = new HashMap<Integer, Object>();
+    private Map<Integer, String> errors = new HashMap<Integer, String>();
+    private HttpStatus status;
 
     public JsonResponse() {
     }

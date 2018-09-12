@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
-
 @RestController
 @RequestMapping(path = "/login")
 public class LoginController {
@@ -49,7 +47,6 @@ public class LoginController {
 
         return response.createResponse();
     }
-
 
     // Checks whether input is null and if it is empty
     private Boolean isNullOrEmpty(String input) {
