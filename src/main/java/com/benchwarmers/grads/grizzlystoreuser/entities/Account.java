@@ -1,5 +1,6 @@
 package com.benchwarmers.grads.grizzlystoreuser.entities;
 
+import com.benchwarmers.grads.grizzlystoreuser.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="Account")
-public class Account {
+public class Account extends Data {
 
     @Id
     @GeneratedValue(generator = "UUID")

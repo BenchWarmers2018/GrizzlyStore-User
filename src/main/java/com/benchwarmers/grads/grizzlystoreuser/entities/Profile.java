@@ -1,5 +1,6 @@
 package com.benchwarmers.grads.grizzlystoreuser.entities;
 
+import com.benchwarmers.grads.grizzlystoreuser.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Profile")
-public class Profile {
+public class Profile extends Data {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
