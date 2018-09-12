@@ -8,9 +8,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class GrizzlystoreUserAccountTests {
@@ -74,5 +77,22 @@ public class GrizzlystoreUserAccountTests {
     public void AccountHasLastModifiedDatetime() {
         Account newAccount = mockedAccountRepository.save(new Account());
         Assert.assertNotNull(newAccount.getLastModified());
+    }
+
+    @Test
+    public void CreateAccountJsonResponse() {
+        List<Data> listOfAccounts = new ArrayList<>();
+        listOfAccounts.add(testAccount);
+        listOfAccounts.add(testAccount);
+        listOfAccounts.add(testAccount);
+
+        List<String> errors = new ArrayList<>();
+        errors.add("Error message 1");
+        errors.add("Error message 2");
+
+        JsonResponse response = new JsonResponse(HttpStatus.ACCEPTED, listOfAccounts, errors);
+        Assert.assertEquals(response.getEntities().size(), 3);
+        Assert.assertEquals(response.getErrors().size(), 2);
+        Assert.assertEquals(response.getStatus(), HttpStatus.ACCEPTED);
     }
 }
