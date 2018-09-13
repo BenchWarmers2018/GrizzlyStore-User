@@ -12,7 +12,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(path = "/user")
+@RequestMapping(path = "/user") // User profile
 public class UserProfileController {
 
     @Autowired
