@@ -42,45 +42,45 @@ public class GrizzlystoreUserAccountTests {
     }
 
     @Test
-    public void AccountIsNotAdmin() {
+    public void accountIsNotAdmin() {
         Account newAccount = mockedAccountRepository.save(new Account());
         Assert.assertEquals(newAccount.isAdmin(), false);
     }
 
     @Test
-    public void AccountIsAdmin() {
+    public void accountIsAdmin() {
         Account newAccount = mockedAccountRepository.save(new Account());
         newAccount.setAdminStatus(true);
         Assert.assertEquals(newAccount.isAdmin(), true);
     }
 
     @Test
-    public void AccountHasCorrectEmailAddress() {
+    public void accountHasCorrectEmailAddress() {
         Account newAccount = mockedAccountRepository.save(new Account());
         Assert.assertEquals("Anto@abc.com", newAccount.getAccountEmailAddress());
     }
 
     @Test
-    public void AccountHasIncorrectEmailAddress() {
+    public void accountHasIncorrectEmailAddress() {
         Account newAccount = mockedAccountRepository.save(new Account());
         newAccount.setAccountEmailAddress("Anto@xyz.com");
         Assert.assertNotEquals("Anto@abc.com", newAccount.getAccountEmailAddress());
     }
 
     @Test
-    public void AccountHasUUID() {
+    public void accountHasUUID() {
         Account newAccount = mockedAccountRepository.save(new Account());
         Assert.assertNotNull(newAccount.getIdAccount());
     }
 
     @Test
-    public void AccountHasLastModifiedDatetime() {
+    public void accountHasLastModifiedDatetime() {
         Account newAccount = mockedAccountRepository.save(new Account());
         Assert.assertNotNull(newAccount.getLastModified());
     }
 
     @Test
-    public void CreateAccountJsonResponse() {
+    public void createAccountJsonResponse() {
         List<Data> listOfAccounts = new ArrayList<>();
         listOfAccounts.add(testAccount);
         listOfAccounts.add(testAccount);
