@@ -42,12 +42,12 @@ public class JsonResponse {
         entities.put(entities.size() + 1, data);
     }
 
-    private void addAllErrors(List<String> listOfErrors) {
+    public void addAllErrors(List<String> listOfErrors) {
         for(Integer i = 0; i < listOfErrors.size(); i++)
             errors.put(i + 1, listOfErrors.get(i));
     }
 
-    private void addAllEntities(List<Data> listOfEntities) {
+    public void addAllEntities(List<Data> listOfEntities) {
         for(Integer i = 0; i < listOfEntities.size(); i++)
             entities.put(i + 1, listOfEntities.get(i));
     }
