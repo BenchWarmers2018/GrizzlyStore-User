@@ -43,13 +43,15 @@ public class JsonResponse {
     }
 
     public void addAllErrors(List<String> listOfErrors) {
+        Integer id = errors.size();
         for(Integer i = 0; i < listOfErrors.size(); i++)
-            errors.put(i + 1, listOfErrors.get(i));
+            errors.put(id++, listOfErrors.get(i));
     }
 
     public void addAllEntities(List<Data> listOfEntities) {
+        Integer id = entities.size();
         for(Integer i = 0; i < listOfEntities.size(); i++)
-            entities.put(i + 1, listOfEntities.get(i));
+            entities.put(id++, listOfEntities.get(i));
     }
 
     public Map<Integer, Object> getEntities() {
