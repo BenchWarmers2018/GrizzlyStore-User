@@ -16,7 +16,7 @@ public class LoginController {
 
     @PostMapping(path = "/authenticate", consumes = "application/json", produces = "application/json")
     public ResponseEntity login (@RequestBody Account account) {
-        String enteredEmailAddress = account.getAccountEmailAddress();
+        String enteredEmailAddress = account.getAccountEmailAddress().toLowerCase();
         String enteredPassword = account.getAccountPassword();
         JsonResponse response = new JsonResponse();
 
@@ -42,7 +42,7 @@ public class LoginController {
         {
             System.out.println(enteredEmailAddress);
             System.out.println(enteredPassword);
-            response.addErrorMessage("An email address and a password must be entered!");
+            createErrorMessage(response,"An email address and a password must be entered!");
         }
 
         return response.createResponse();

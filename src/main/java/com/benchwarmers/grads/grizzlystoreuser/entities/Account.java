@@ -57,7 +57,7 @@ public class Account extends Data {
     }
 
     public void setAccountEmailAddress(String account_EmailAddress) {
-        this.accountEmailAddress = account_EmailAddress;
+        this.accountEmailAddress = account_EmailAddress.toLowerCase();
     }
 
     public String getAccountPassword() {
