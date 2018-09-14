@@ -57,7 +57,7 @@ public class GrizzlystoreUserAccountTests {
     @Test
     public void accountHasCorrectEmailAddress() {
         Account newAccount = mockedAccountRepository.save(new Account());
-        Assert.assertEquals("Anto@abc.com", newAccount.getAccountEmailAddress());
+        Assert.assertEquals("anto@abc.com", newAccount.getAccountEmailAddress());
     }
 
     @Test

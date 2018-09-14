@@ -39,6 +39,12 @@ public class Profile extends Data {
     @JoinColumn(name = "id_account_foreign", nullable = false)
     private Account userAccount;
 
+    @OneToOne(cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "id_googleaaccount_foreign", nullable = false)
+    private GoogleAccount googleAccount;
+
 
     //Getter and Setters.
     public Account getUserAccount() {
