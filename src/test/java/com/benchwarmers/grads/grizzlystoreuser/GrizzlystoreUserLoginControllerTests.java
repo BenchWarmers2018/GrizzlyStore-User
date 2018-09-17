@@ -79,13 +79,13 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        // Create a JSONArray using the array within the JsonResponse called "Entities"
-        JSONArray jsonEntities = new JSONObject(content).getJSONArray("Entities");
+        // Create a JSONArray using the array within the JsonResponse called "entities"
+        JSONArray jsonEntities = new JSONObject(content).getJSONArray("entities");
 
         // Create a JSON Object containing the testAccount
         JSONObject account = new JSONObject(mapper.writeValueAsString(testAccount));
 
-        // Checks that the first index within the Entities contains the account we logged in as (testAccount)
+        // Checks that the first index within the entities contains the account we logged in as (testAccount)
         JSONAssert.assertEquals(account.toString(), jsonEntities.get(0).toString(), true);
     }
 
@@ -105,8 +105,8 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        // Get the objects within the "Errors" section of the Json Response
-        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
+        // Get the objects within the "errors" section of the Json Response
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("errors");
 
         // Expected error message
         String errorMessage = "Email address or password is incorrect!";
@@ -150,7 +150,7 @@ public class GrizzlystoreUserLoginControllerTests {
         String content = result.getResponse().getContentAsString();
 
         // Get the objects within the "Errors" section of the Json Response
-        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("errors");
 
         // Expected error message
         String errorMessage = "An email address and a password must be entered!";
@@ -177,7 +177,7 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("errors");
 
         String errorMessage = "An email address and a password must be entered!";
 
@@ -202,7 +202,7 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("errors");
 
         String errorMessage = "An account does not exist with the email address: anthony@abc.com";
 
