@@ -4,6 +4,7 @@ import com.benchwarmers.grads.grizzlystoreuser.controllers.LoginController;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -78,12 +79,14 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        // Get the objects within the "Entities" section of the Json Response
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Entities");
+        // Create a JSONArray using the array within the JsonResponse called "Entities"
+        JSONArray jsonEntities = new JSONObject(content).getJSONArray("Entities");
+
+        // Create a JSON Object containing the testAccount
         JSONObject account = new JSONObject(mapper.writeValueAsString(testAccount));
 
-        // Checks that the first index within Entities contains the account we logged in as (testAccount)
-        JSONAssert.assertEquals(account, (JSONObject) jsonResponse.get("1"), true);
+        // Checks that the first index within the Entities contains the account we logged in as (testAccount)
+        JSONAssert.assertEquals(account.toString(), jsonEntities.get(0).toString(), true);
     }
 
     @Test
@@ -103,13 +106,13 @@ public class GrizzlystoreUserLoginControllerTests {
         String content = result.getResponse().getContentAsString();
 
         // Get the objects within the "Errors" section of the Json Response
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
 
         // Expected error message
         String errorMessage = "Email address or password is incorrect!";
 
         // Error message within the JsonResponse
-        String jsonErrorMessage = jsonResponse.get("1").toString();
+        String jsonErrorMessage = jsonErrors.get(0).toString();
 
         Assert.assertEquals(errorMessage, jsonErrorMessage);
     }
@@ -147,13 +150,13 @@ public class GrizzlystoreUserLoginControllerTests {
         String content = result.getResponse().getContentAsString();
 
         // Get the objects within the "Errors" section of the Json Response
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
 
         // Expected error message
         String errorMessage = "An email address and a password must be entered!";
 
         // Error message within the JsonResponse
-        String jsonErrorMessage = jsonResponse.get("1").toString();
+        String jsonErrorMessage = jsonErrors.get(0).toString();
 
         Assert.assertEquals(jsonErrorMessage, errorMessage);
     }
@@ -174,11 +177,11 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
 
         String errorMessage = "An email address and a password must be entered!";
 
-        String jsonErrorMessage = jsonResponse.get("1").toString();
+        String jsonErrorMessage = jsonErrors.get(0).toString();
 
         Assert.assertEquals(errorMessage, jsonErrorMessage);
     }
@@ -199,11 +202,11 @@ public class GrizzlystoreUserLoginControllerTests {
 
         String content = result.getResponse().getContentAsString();
 
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonErrors = new JSONObject(content).getJSONArray("Errors");
 
         String errorMessage = "An account does not exist with the email address: anthony@abc.com";
 
-        String jsonErrorMessage = jsonResponse.get("1").toString();
+        String jsonErrorMessage = jsonErrors.get(0).toString();
 
         Assert.assertEquals(errorMessage, jsonErrorMessage);
     }

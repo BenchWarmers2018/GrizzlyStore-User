@@ -5,6 +5,7 @@ import com.benchwarmers.grads.grizzlystoreuser.entities.*;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -86,9 +87,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.ALL))
                 .andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Entities");
+        JSONArray jsonResponse = new JSONObject(content).getJSONArray("Entities");
         JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
-        JSONAssert.assertEquals(profile, (JSONObject) jsonResponse.get("1"), true);
+        JSONAssert.assertEquals(profile, (JSONObject) jsonResponse.get(0), true);
     }
 
     @Test
@@ -101,8 +102,8 @@ public class GrizzlystoreUserProfileTests {
                 .andExpect(status().isNotAcceptable()).andReturn();
         String content = result.getResponse().getContentAsString();
         System.out.println(result + "\n" + content);
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonResponse = new JSONObject(content).getJSONArray("Errors");
         Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
-                jsonResponse.get("1").toString());
+                jsonResponse.get(0).toString());
     }
 }
