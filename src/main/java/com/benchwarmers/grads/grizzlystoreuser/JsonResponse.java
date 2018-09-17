@@ -61,13 +61,13 @@ public class JsonResponse {
     }
 
     public ResponseEntity createResponse() {
-        body.put("Status", status);
+        body.put("status", status);
 
-        if (entities.size() > 0)
-            body.put("Entities", entities);
+//        if (entities.size() > 0)
+            body.put("entities", entities);
 
-        if (errors.size() > 0)
-            body.put("Errors", errors);
+//        if (errors.size() > 0)
+            body.put("errors", errors);
 
         return ResponseEntity.status(status).body(body);
     }

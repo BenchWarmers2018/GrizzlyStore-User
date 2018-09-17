@@ -87,7 +87,7 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.ALL))
                 .andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
-        JSONArray jsonResponse = new JSONObject(content).getJSONArray("Entities");
+        JSONArray jsonResponse = new JSONObject(content).getJSONArray("entities");
         JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
         JSONAssert.assertEquals(profile, (JSONObject) jsonResponse.get(0), true);
     }
@@ -102,7 +102,7 @@ public class GrizzlystoreUserProfileTests {
                 .andExpect(status().isNotAcceptable()).andReturn();
         String content = result.getResponse().getContentAsString();
         System.out.println(result + "\n" + content);
-        JSONArray jsonResponse = new JSONObject(content).getJSONArray("Errors");
+        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
         Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
                 jsonResponse.get(0).toString());
     }
