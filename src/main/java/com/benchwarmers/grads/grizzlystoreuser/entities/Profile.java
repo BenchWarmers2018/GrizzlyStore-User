@@ -40,7 +40,6 @@ public class Profile extends Data {
     private Account userAccount;
 
 
-    //Getter and Setters.
     public Account getUserAccount() {
         return userAccount;
     }

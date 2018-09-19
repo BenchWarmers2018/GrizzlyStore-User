@@ -1,14 +1,18 @@
 package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
 import com.benchwarmers.grads.grizzlystoreuser.JsonResponse;
+import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
-import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 
 @RestController
@@ -16,17 +20,41 @@ import java.util.UUID;
 public class UserProfileController {
 
     @Autowired
-    private Profile_Repository profile_repository;
+    private Account_Repository account_repository;
 
-    @PostMapping(path = "/profile") // Map ONLY POST Requests
+    @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
-    ResponseEntity getUserProfile(@RequestParam String accountID) {
-        System.out.println(accountID);
-        System.out.println("Account: " + accountID);
+    ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
         JsonResponse response = new JsonResponse();
-        Profile profile = profile_repository.findByUserAccount(UUID.fromString(accountID));
-        if (profile == null) {
+        Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
+        if (account == null) {
             createErrorMessage(response, "Account ID " + accountID + " doesn't exist.");
+            return response.createResponse();
+        }
+        Profile profile = account.getProfile();
+        if (profile == null) {
+            createErrorMessage(response, "Account has no profile.");
+        } else {
+            response.setStatus(HttpStatus.OK);
+            response.addEntity(profile);
+            System.out.println("Getting here");
+        }
+        System.out.println(profile);
+        return response.createResponse();
+    }
+
+    @RequestMapping(value = "/profile-account", method = POST, consumes = MediaType.ALL_VALUE)
+    public @ResponseBody
+    ResponseEntity getUserProfileFromAccount(@RequestBody Account account) {
+        JsonResponse response = new JsonResponse();
+        Account newAcc = account_repository.findByIdAccount(account.getIdAccount());
+        if (newAcc == null) {
+            createErrorMessage(response, "Account ID " + account.getIdAccount().toString() + " doesn't exist.");
+            return response.createResponse();
+        }
+        Profile profile = newAcc.getProfile();
+        if (profile == null) {
+            createErrorMessage(response, "Account has no profile.");
         } else {
             response.setStatus(HttpStatus.OK);
             response.addEntity(profile);

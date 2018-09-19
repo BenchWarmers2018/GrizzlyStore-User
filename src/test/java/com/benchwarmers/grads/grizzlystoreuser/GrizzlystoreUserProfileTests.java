@@ -5,6 +5,7 @@ import com.benchwarmers.grads.grizzlystoreuser.entities.*;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,7 +39,16 @@ public class GrizzlystoreUserProfileTests {
     private UserProfileController userProfileController;
 
     @Mock
-    private Account testAccount;
+    private Account testAccount1; // Account with no profile
+
+    @Mock
+    private Account testAccount2; // Account with a profile
+
+    @Mock
+    private JSONObject accountObjectValid;
+
+    @Mock
+    private JSONObject accountObjectInvalid;
 
     @Mock
     private Profile testProfile;
@@ -50,17 +60,53 @@ public class GrizzlystoreUserProfileTests {
     private MockMvc mvc;
 
     @Before
-    public void setup() {
+    public void setup() throws JSONException {
         MockitoAnnotations.initMocks(this);
         this.mvc = MockMvcBuilders.standaloneSetup(userProfileController).build();
-        testAccount = new Account();
-        testAccount.setIdAccount(UUID.randomUUID());
+        setupAccounts();
+        setupProfiles();
+        testAccount2.setProfile(testProfile);
         invalidUUID = UUID.randomUUID();
-        testAccount.setAccountEmailAddress("Anto@abc.com");
-        testAccount.setAccountPassword("1234");
-        testAccount.setAdminStatus(false);
-        testAccount.setLastModified(Date.from(Instant.now()));
-        Mockito.when(mockedAccountRepository.save(Mockito.any(Account.class))).thenReturn(testAccount);
+        Mockito.when(mockedAccountRepository.findByIdAccount(testAccount2.getIdAccount())).thenReturn(testAccount2);
+        Mockito.when(mockedAccountRepository.findByIdAccount(testAccount1.getIdAccount())).thenReturn(testAccount1);
+        Mockito.when(mockedProfileRepository.save(Mockito.any(Profile.class))).thenReturn(testProfile);
+        Mockito.when(mockedProfileRepository.findByUserAccount(null)).thenReturn(null);
+        Mockito.when(mockedAccountRepository.findByIdAccount(invalidUUID)).thenReturn(null);
+
+        accountObjectValid = new JSONObject();
+        accountObjectValid.put("idAccount", testAccount2.getIdAccount().toString());
+        accountObjectValid.put("accountEmailAddress", "abc@gmail.com");
+        accountObjectValid.put("accountPassword", "abcd");
+        accountObjectValid.put("accountIsAdmin", "true");
+
+        accountObjectInvalid = new JSONObject();
+        accountObjectInvalid.put("idAccount", invalidUUID.toString());
+        accountObjectInvalid.put("accountEmailAddress", "abc@gmail.com");
+        accountObjectInvalid.put("accountPassword", "abcd");
+        accountObjectInvalid.put("accountIsAdmin", "true");
+    }
+
+    public void setupAccounts() { // Setup account objects
+        // Account with no profile
+        testAccount1 = new Account();
+        testAccount1.setIdAccount(UUID.randomUUID());
+        testAccount1.setAccountEmailAddress("Anto@abc.com");
+        testAccount1.setAccountPassword("1234");
+        testAccount1.setAdminStatus(false);
+        testAccount1.setProfile(null);
+        testAccount1.setLastModified(Date.from(Instant.now()));
+
+        // Account with a profile
+        testAccount2 = new Account();
+        testAccount2.setIdAccount(UUID.randomUUID());
+        testAccount2.setAccountEmailAddress("paarth@abc.com");
+        testAccount2.setAccountPassword("1234");
+        testAccount2.setAdminStatus(false);
+        testAccount2.setLastModified(Date.from(Instant.now()));
+        Mockito.when(mockedAccountRepository.save(Mockito.any(Account.class))).thenReturn(testAccount2);
+    }
+
+    public void setupProfiles() { // Setup a profile object
         testProfile = new Profile();
         testProfile.setProfileFirstName("Paarth");
         testProfile.setProfileLastName("B");
@@ -69,9 +115,7 @@ public class GrizzlystoreUserProfileTests {
         testProfile.setUserAccount(mockedAccountRepository.save(new Account()));
         testProfile.setIdProfile(1);
         testProfile.setLastModified(Date.from(Instant.now()));
-        Mockito.when(mockedProfileRepository.findByUserAccount(testAccount.getIdAccount())).thenReturn(testProfile);
         Mockito.when(mockedProfileRepository.save(Mockito.any(Profile.class))).thenReturn(testProfile);
-        Mockito.when(mockedProfileRepository.findByUserAccount(invalidUUID)).thenReturn(null);
     }
 
     @Test
@@ -93,6 +137,7 @@ public class GrizzlystoreUserProfileTests {
 
     @Test
     public void getUserProfileInvalid() throws Exception {
+        // Non-existent account with invalid account ID
         MvcResult result = mvc.perform(
                 MockMvcRequestBuilders.post("/user/profile")
                         .accept(MediaType.ALL)
@@ -100,9 +145,64 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.ALL))
                 .andExpect(status().isNotAcceptable()).andReturn();
         String content = result.getResponse().getContentAsString();
-        System.out.println(result + "\n" + content);
         JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
         Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
                 jsonResponse.get("1").toString());
+
+        // Account with no profile
+        result = mvc.perform(
+                MockMvcRequestBuilders.post("/user/profile")
+                        .accept(MediaType.ALL)
+                        .param("accountID", testAccount1.getIdAccount().toString())
+                        .contentType(MediaType.ALL))
+                .andExpect(status().isNotAcceptable()).andReturn();
+        content = result.getResponse().getContentAsString();
+        jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        Assert.assertEquals("Account has no profile.",
+                jsonResponse.get("1").toString());
+    }
+
+    @Test
+    public void getUserProfileInvalidObject() throws Exception {
+        // Non-existent account with invalid account ID
+        MvcResult result = mvc.perform(
+                MockMvcRequestBuilders.post("/user/profile-account")
+                        .accept(MediaType.ALL)
+                        .content(accountObjectInvalid.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotAcceptable()).andReturn();
+        String content = result.getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
+                jsonResponse.get("1").toString());
+
+        // Account with no profile
+        accountObjectInvalid.put("idAccount", testAccount1.getIdAccount().toString());
+        result = mvc.perform(
+                MockMvcRequestBuilders.post("/user/profile-account")
+                        .accept(MediaType.ALL)
+                        .content(accountObjectInvalid.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotAcceptable()).andReturn();
+        content = result.getResponse().getContentAsString();
+        jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        Assert.assertEquals("Account has no profile.",
+                jsonResponse.get("1").toString());
+    }
+
+    @Test
+    public void getUserProfileValidObject() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Profile newProfile = mockedProfileRepository.save(new Profile());
+        MvcResult result = mvc.perform(
+                MockMvcRequestBuilders.post("/user/profile-account")
+                        .accept(MediaType.ALL)
+                        .content(accountObjectValid.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        String content = result.getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Entities");
+        JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
+        JSONAssert.assertEquals(profile, (JSONObject) jsonResponse.get("1"), true);
     }
 }
