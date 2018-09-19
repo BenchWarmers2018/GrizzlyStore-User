@@ -39,7 +39,6 @@ public class Profile extends Data {
     @JoinColumn(name = "id_account_foreign", nullable = false)
     private Account userAccount;
 
-    //Getter and Setters.
     public Account getUserAccount() {
         return userAccount;
     }
