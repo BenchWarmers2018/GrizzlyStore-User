@@ -2,14 +2,16 @@ package com.benchwarmers.grads.grizzlystoreuser;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class JsonResponse {
     private Map<String, Object> body = new HashMap<String, Object>();
-    private Map<Integer, Object> entities = new HashMap<Integer, Object>();
-    private Map<Integer, String> errors = new HashMap<Integer, String>();
+    private List<Object> entities = new ArrayList<>();
+    private List<String> errors = new ArrayList<>();
     private HttpStatus status;
 
     public JsonResponse() {
@@ -34,40 +36,38 @@ public class JsonResponse {
         this.status = status;
     }
 
-    public void addErrorMessage(String error) {
-        errors.put(errors.size() + 1, error);
-    }
+    public void addErrorMessage(String error) { errors.add(error); }
 
     public void addEntity(Data data) {
-        entities.put(entities.size() + 1, data);
+        entities.add(data);
     }
 
-    private void addAllErrors(List<String> listOfErrors) {
-        for(Integer i = 0; i < listOfErrors.size(); i++)
-            errors.put(i + 1, listOfErrors.get(i));
+    public void addAllErrors(List<String> listOfErrors) {
+        for(String error : listOfErrors)
+            errors.add(error);
     }
 
-    private void addAllEntities(List<Data> listOfEntities) {
-        for(Integer i = 0; i < listOfEntities.size(); i++)
-            entities.put(i + 1, listOfEntities.get(i));
+    public void addAllEntities(List<Data> listOfEntities) {
+        for(Data entity : listOfEntities)
+            entities.add(entity);
     }
 
-    public Map<Integer, Object> getEntities() {
+    public List<Object> getEntities() {
         return entities;
     }
 
-    public Map<Integer, String> getErrors() {
+    public List<String> getErrors() {
         return errors;
     }
 
     public ResponseEntity createResponse() {
-        body.put("Status", status);
+        body.put("status", status);
 
-        if (entities.size() > 0)
-            body.put("Entities", entities);
+//        if (entities.size() > 0)
+            body.put("entities", entities);
 
-        if (errors.size() > 0)
-            body.put("Errors", errors);
+//        if (errors.size() > 0)
+            body.put("errors", errors);
 
         return ResponseEntity.status(status).body(body);
     }
