@@ -2,6 +2,7 @@ package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -32,13 +33,11 @@ public class Profile extends Data {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
 
-
     @OneToOne(cascade =  CascadeType.ALL,
             orphanRemoval = true
     )
     @JoinColumn(name = "id_account_foreign", nullable = false)
     private Account userAccount;
-
 
     public Account getUserAccount() {
         return userAccount;
@@ -95,6 +94,5 @@ public class Profile extends Data {
     public void setLastModified(Date last_modified) {
         this.lastModified = last_modified;
     }
-
 
 }
