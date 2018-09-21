@@ -22,9 +22,9 @@ public class UserProfileController {
     @Autowired
     private Account_Repository account_repository;
 
+    @CrossOrigin
     @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
-    public @ResponseBody
-    ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
+    public @ResponseBody ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
         JsonResponse response = new JsonResponse();
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         if (account == null) {
@@ -43,6 +43,7 @@ public class UserProfileController {
         return response.createResponse();
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/profile-account", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
     ResponseEntity getUserProfileFromAccount(@RequestBody Account account) {
