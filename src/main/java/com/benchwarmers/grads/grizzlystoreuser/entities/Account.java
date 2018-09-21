@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -29,9 +30,11 @@ public class Account extends Data {
 
     @Column(name = "account_EmailAddress", nullable = false, unique = true)
     @Email
+    @Length(max=256, message="Emails must be less than or equal to {max} characters")
     private String accountEmailAddress;
 
     @Column(name = "account_Password", nullable = false)
+    @Length(max=256, message="Passwords must be less than or equal to {max} characters")
     private String accountPassword;
 
     @Column(name = "account_IsAdmin", nullable = false)
@@ -41,14 +44,6 @@ public class Account extends Data {
     @Column(name = "DateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
 
     @OneToOne(mappedBy = "userAccount", cascade = {CascadeType.ALL})
     @JsonIgnore
@@ -94,5 +89,13 @@ public class Account extends Data {
 
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }
