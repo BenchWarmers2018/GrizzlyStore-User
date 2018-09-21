@@ -5,6 +5,7 @@ import com.benchwarmers.grads.grizzlystoreuser.entities.*;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -130,9 +131,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.ALL))
                 .andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Entities");
+        JSONObject jsonResponse = new JSONObject(content).getJSONArray("entities").getJSONObject(0);
         JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
-        JSONAssert.assertEquals(profile, (JSONObject) jsonResponse.get("1"), true);
+        JSONAssert.assertEquals(profile, jsonResponse, true);
     }
 
     @Test
@@ -145,9 +146,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.ALL))
                 .andExpect(status().isNotAcceptable()).andReturn();
         String content = result.getResponse().getContentAsString();
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
         Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
-                jsonResponse.get("1").toString());
+                jsonResponse.get(0).toString());
 
         // Account with no profile
         result = mvc.perform(
@@ -157,9 +158,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.ALL))
                 .andExpect(status().isNotAcceptable()).andReturn();
         content = result.getResponse().getContentAsString();
-        jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        jsonResponse = new JSONObject(content).getJSONArray("errors");
         Assert.assertEquals("Account has no profile.",
-                jsonResponse.get("1").toString());
+                jsonResponse.get(0).toString());
     }
 
     @Test
@@ -172,9 +173,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotAcceptable()).andReturn();
         String content = result.getResponse().getContentAsString();
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
         Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
-                jsonResponse.get("1").toString());
+                jsonResponse.get(0).toString());
 
         // Account with no profile
         accountObjectInvalid.put("idAccount", testAccount1.getIdAccount().toString());
@@ -185,9 +186,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotAcceptable()).andReturn();
         content = result.getResponse().getContentAsString();
-        jsonResponse = new JSONObject(content).getJSONObject("Errors");
+        jsonResponse = new JSONObject(content).getJSONArray("errors");
         Assert.assertEquals("Account has no profile.",
-                jsonResponse.get("1").toString());
+                jsonResponse.get(0).toString());
     }
 
     @Test
@@ -201,8 +202,9 @@ public class GrizzlystoreUserProfileTests {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
-        JSONObject jsonResponse = new JSONObject(content).getJSONObject("Entities");
+        System.out.println(content);
+        JSONObject jsonResponse = new JSONObject(content).getJSONArray("entities").getJSONObject(0);
         JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
-        JSONAssert.assertEquals(profile, (JSONObject) jsonResponse.get("1"), true);
+        JSONAssert.assertEquals(profile, jsonResponse, true);
     }
 }
