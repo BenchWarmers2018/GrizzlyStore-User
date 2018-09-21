@@ -1,8 +1,10 @@
 package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,15 +19,19 @@ public class Profile extends Data {
     private Integer idProfile;
 
     @Column(name = "profile_FirstName", nullable = false)
+    @Length(max=50, message="First names must be less than or equal to {max} characters")
     private String profileFirstName;
 
     @Column(name = "profile_LastName", nullable = false)
+    @Length(max=50, message="Last names must be less than or equal to {max} characters")
     private String profileLastName;
 
     @Column(name = "profile_PhoneNumber", nullable = false)
+    @Length(min=10, max=10, message="Phone numbers must be equal to {max} characters")
     private String profilePhoneNumber;
 
     @Column(name = "profile_Image", nullable = false)
+    @Length(max=256, message="The URL for images must be less than or equal to {max} characters")
     private String profileImage;
 
     @CreationTimestamp
@@ -38,6 +44,10 @@ public class Profile extends Data {
     )
     @JoinColumn(name = "id_account_foreign", nullable = false)
     private Account userAccount;
+
+    @OneToOne(mappedBy = "profile", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private Address address;
 
     public Account getUserAccount() {
         return userAccount;
