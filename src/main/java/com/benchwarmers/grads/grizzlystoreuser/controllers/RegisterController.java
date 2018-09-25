@@ -17,6 +17,7 @@ public class RegisterController
 {
     @Autowired
     Account_Repository newAccount;
+    @CrossOrigin
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public ResponseEntity createProfile(@RequestBody Account user)
     {
