@@ -11,6 +11,7 @@ import java.util.Date;
 @Table(name = "Address")
 public class Address extends Data {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_Address", updatable = false, nullable = false)
     private Integer idAddress;
 
@@ -26,7 +27,7 @@ public class Address extends Data {
     @Length(max=256, message="Address Line 3 must be less than or equal to {max} characters")
     private String addressLine3;
 
-    @Column(name = "address_City")
+    @Column(name = "address_City", nullable = false)
     @Length(max=50, message="The city name must be less than or equal to {max} characters")
     private String addressCity;
 
@@ -34,7 +35,7 @@ public class Address extends Data {
     @Length(max=3, message="The state must be less than or equal to {max} characters")
     private String addressState;
 
-    @Column(name = "address_Country")
+    @Column(name = "address_Country", nullable = false)
     @Length(max=50, message="The country name must be less than or equal to {max} characters")
     private String addressCountry;
 

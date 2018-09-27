@@ -1,8 +1,10 @@
 package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
 import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
+import com.benchwarmers.grads.grizzlystoreuser.entities.Address;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.Address_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,9 @@ public class TestController {
 
     @Autowired
     private Profile_Repository profileRepo;
+
+    @Autowired
+    private Address_Repository addressRepo;
 
     @RequestMapping(path = "seed")
     public Profile seedData()
@@ -37,6 +42,12 @@ public class TestController {
         tempP.setUserAccount(tempA);
         profileRepo.save(tempP);
 
+        Address tempAddress = new Address();
+        tempAddress.setAddressCity("Melbourne, Victoria");
+        tempAddress.setAddressCountry("Australia");
+        tempAddress.setAddressLine1("95 Bear Avenue, Grizzly Park");
+        tempAddress.setProfile(tempP);
+        addressRepo.save(tempAddress);
 
         return tempP;
     }
