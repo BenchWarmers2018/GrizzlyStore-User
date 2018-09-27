@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
-servicename = grizzlystore-user
-
 echo 'Deployment in progress'
 pwd && cd target
-sudo systemctl stop $servicename.service || true
+sudo systemctl stop grizzlystore-user.service || true
 
-if [ -f $servicename ] ; then
-    sudo rm /etc/init.d/$servicename || true
+if [ -f grizzlystore-user ] ; then
+    sudo rm /etc/init.d/grizzlystore-user || true
 fi
 
-sudo ln -s *.jar /etc/init.d/$servicename
-sudo systemctl start $servicename.service
+sudo ln -s *.jar /etc/init.d/grizzlystore-user
+sudo systemctl start grizzlystore-user.service
