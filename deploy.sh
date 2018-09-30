@@ -12,5 +12,5 @@ if [ -f grizzlystore-user ] ; then
     sudo rm /etc/init.d/grizzlystore-user || true
 fi
 
-cp *.jar /opt/GrizzlyStoreMicroServices/GrizzlyStore-User.jar
+cp *.jar /opt/GrizzlyStoreMicroServices/grizzlystore-user.jar
 sudo systemctl start grizzlystore-user.service
