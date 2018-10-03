@@ -126,19 +126,19 @@ public class GrizzlystoreUserProfileTests {
         Mockito.when(mockedProfileRepository.save(Mockito.any(Profile.class))).thenReturn(testProfile);
     }
 
-    private void setupAddress() {
-        testAddress = new Address();
-        testAddress.setIdAddress(1);
-        testAddress.setAddressLine1("123 Fake Street");
-        testAddress.setAddressLine2("N/A");
-        testAddress.setAddressLine3("N/A");
-        testAddress.setAddressCity("Melbourne");
-        testAddress.setAddressState("VIC");
-        testAddress.setAddressPostcode("1234");
-        testAddress.setAddressCountry("Australia");
-        testAddress.setLastModified(Date.from(Instant.now()));
-        Mockito.when(mockedAddressRepository.save( Mockito.any(Address.class) )).thenReturn(testAddress);
-    }
+//    private void setupAddress() {
+//        testAddress = new Address();
+//        testAddress.setIdAddress(1);
+//        testAddress.setAddressLine1("123 Fake Street");
+//        testAddress.setAddressLine2("N/A");
+//        testAddress.setAddressLine3("N/A");
+//        testAddress.setAddressCity("Melbourne");
+//        testAddress.setAddressState("VIC");
+//        testAddress.setAddressPostcode("1234");
+//        testAddress.setAddressCountry("Australia");
+//        testAddress.setLastModified(Date.from(Instant.now()));
+//        Mockito.when(mockedAddressRepository.save( Mockito.any(Address.class) )).thenReturn(testAddress);
+//    }
 
     @Test
     public void getUserProfileValid() throws Exception {
