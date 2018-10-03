@@ -21,7 +21,7 @@ pipeline {
       }
       stage('Deployment Stage') {
          steps {
-            sh 'bash ./deploy.sh'
+            sh '/var/lib/jenkins/scripts/grizzlystore_user.sh'
          }
       }
    }
