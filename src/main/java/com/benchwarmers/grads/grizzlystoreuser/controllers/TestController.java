@@ -29,10 +29,9 @@ public class TestController {
     public Profile seedData()
     {
         Account tempA = new Account();
-        tempA.setAccountEmailAddress("avi@gmail.com");
+        tempA.setAccountEmailAddress("avimbn@gmail.com");
         tempA.setAdminStatus(false);
         tempA.setAccountPassword("password");
-        accRepo.save(tempA);
 
         Profile tempP = new Profile();
         tempP.setProfileFirstName("avtar");
@@ -40,7 +39,6 @@ public class TestController {
         tempP.setProfileImage("image");
         tempP.setProfilePhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
-        profileRepo.save(tempP);
 
         Address tempAddress = new Address();
         tempAddress.setAddressCity("Melbourne, Victoria");

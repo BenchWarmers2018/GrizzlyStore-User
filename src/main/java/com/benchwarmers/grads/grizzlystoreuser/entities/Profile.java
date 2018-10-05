@@ -43,7 +43,7 @@ public class Profile extends Data {
     @JoinColumn(name = "id_account_foreign", nullable = false)
     private Account userAccount;
 
-    @OneToOne(mappedBy = "profile", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JsonIgnore
     private Address address;
 

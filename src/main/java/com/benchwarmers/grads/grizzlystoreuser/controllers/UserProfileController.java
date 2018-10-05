@@ -79,7 +79,18 @@ public class UserProfileController {
     public @ResponseBody String postUpdatedProfileDetails(@RequestBody String json) {
         JSONObject profileUpdated = new JSONObject(json);
         System.out.println("Updated Profiles: " + profileUpdated);
+        String uuid = profileUpdated.getString("accountID");
+        Account account = account_repository.findByIdAccount(UUID.fromString(uuid));
+        if (profileUpdated.get("phone").toString().isEmpty())
+        updateDetails(profileUpdated);
+        Profile profile = account.getProfile();
+
+        System.out.println(account);
         return "Profile Updating Successful";
+    }
+
+    private void updateDetails(JSONObject details) {
+
     }
 
     private void createErrorMessage(JsonResponse response, String string) {
