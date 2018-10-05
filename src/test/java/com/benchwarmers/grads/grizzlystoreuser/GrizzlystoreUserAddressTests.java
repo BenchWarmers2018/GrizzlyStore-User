@@ -20,9 +20,9 @@ public class GrizzlystoreUserAddressTests {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         Address testAddress = new Address();
-        testAddress.setAddressLine1("123 Fake Street");
-        testAddress.setAddressLine2("N/A");
-        testAddress.setAddressLine3("N/A");
+//        testAddress.setAddressLine1("123 Fake Street");
+//        testAddress.setAddressLine2("N/A");
+//        testAddress.setAddressLine3("N/A");
         testAddress.setAddressCity("Melbourne");
         testAddress.setAddressState("VIC");
         testAddress.setAddressPostcode("1234");
@@ -37,23 +37,23 @@ public class GrizzlystoreUserAddressTests {
         Assert.assertNotNull(testAddress);
     }
 
-    @Test
-    public void addressHasAddressLine1() {
-        Address testAddress = mockedAddressRepository.save(new Address());
-        Assert.assertEquals(testAddress.getAddressLine1(), "123 Fake Street");
-    }
-
-    @Test
-    public void addressHasAddressLine2() {
-        Address testAddress = mockedAddressRepository.save(new Address());
-        Assert.assertEquals(testAddress.getAddressLine2(), "N/A");
-    }
-
-    @Test
-    public void addressHasAddressLine3() {
-        Address testAddress = mockedAddressRepository.save(new Address());
-        Assert.assertEquals(testAddress.getAddressLine3(), "N/A");
-    }
+//    @Test
+//    public void addressHasAddressLine1() {
+//        Address testAddress = mockedAddressRepository.save(new Address());
+//        Assert.assertEquals(testAddress.getAddressLine1(), "123 Fake Street");
+//    }
+//
+//    @Test
+//    public void addressHasAddressLine2() {
+//        Address testAddress = mockedAddressRepository.save(new Address());
+//        Assert.assertEquals(testAddress.getAddressLine2(), "N/A");
+//    }
+//
+//    @Test
+//    public void addressHasAddressLine3() {
+//        Address testAddress = mockedAddressRepository.save(new Address());
+//        Assert.assertEquals(testAddress.getAddressLine3(), "N/A");
+//    }
 
     @Test
     public void addressHasCity() {

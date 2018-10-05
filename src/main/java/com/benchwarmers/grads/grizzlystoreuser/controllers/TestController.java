@@ -36,14 +36,20 @@ public class TestController {
         Profile tempP = new Profile();
         tempP.setProfileFirstName("avtar");
         tempP.setProfileLastName("singh");
-        tempP.setProfileImage("image");
+        tempP.setProfileImage("/Users/723313/Documents/Project/GrizzlyStore-React/src/images/profile_images/profile-pic.png");
         tempP.setProfilePhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
 
         Address tempAddress = new Address();
-        tempAddress.setAddressCity("Melbourne, Victoria");
+
+        tempAddress.setAddressUnitNo("1");
+        tempAddress.setAddressStreetNo("3");
+        tempAddress.setAddressStreet("Fake");
+        tempAddress.setAddressStreetType("St");
+        tempAddress.setAddressCity("Suburb");
+        tempAddress.setAddressPostcode("3924");
+        tempAddress.setAddressState("VIC");
         tempAddress.setAddressCountry("Australia");
-        tempAddress.setAddressLine1("95 Bear Avenue, Grizzly Park");
         tempAddress.setProfile(tempP);
         addressRepo.save(tempAddress);
 
