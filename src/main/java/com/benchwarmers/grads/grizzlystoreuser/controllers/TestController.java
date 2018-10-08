@@ -17,28 +17,27 @@ import java.util.UUID;
 public class TestController {
 
     @Autowired
-    private Account_Repository accRepo;
-
-    @Autowired
-    private Profile_Repository profileRepo;
-
-    @Autowired
     private Address_Repository addressRepo;
+
+    @Autowired
+    private Profile_Repository profileRepository;
 
     @RequestMapping(path = "seed")
     public Profile seedData()
     {
         Account tempA = new Account();
-        tempA.setAccountEmailAddress("avimbn@gmail.com");
+        tempA.setAccountEmailAddress("paarthbhasin@gmail.com");
         tempA.setAdminStatus(false);
         tempA.setAccountPassword("password");
 
         Profile tempP = new Profile();
-        tempP.setProfileFirstName("avtar");
-        tempP.setProfileLastName("singh");
+        tempP.setProfileFirstName("Paarth");
+        tempP.setProfileLastName("Bhasin");
         tempP.setProfileImage("/Users/723313/Documents/Project/GrizzlyStore-React/src/images/profile_images/profile-pic.png");
         tempP.setProfilePhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
+
+        profileRepository.save(tempP);
 
         Address tempAddress = new Address();
 
@@ -52,6 +51,7 @@ public class TestController {
         tempAddress.setAddressCountry("Australia");
         tempAddress.setProfile(tempP);
         addressRepo.save(tempAddress);
+
 
         return tempP;
     }
