@@ -43,10 +43,10 @@ public class Profile extends Data {
             orphanRemoval = true
     )
     @JoinColumn(name = "id_account_foreign", nullable = false)
+    @JsonIgnore
     private Account userAccount;
 
     @OneToOne(mappedBy = "profile", cascade = {CascadeType.ALL})
-    @JsonIgnore
     private Address address;
 
     public Account getUserAccount() {

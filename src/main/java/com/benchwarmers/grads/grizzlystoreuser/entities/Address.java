@@ -1,6 +1,7 @@
 package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -51,6 +52,7 @@ public class Address extends Data {
             orphanRemoval = true
     )
     @JoinColumn(name = "id_profile_foreign", nullable = false)
+    @JsonIgnore
     private Profile profile;
 
     public String getAddressLine1() {
