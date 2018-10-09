@@ -44,7 +44,7 @@ public class Profile extends Data {
     @JsonIgnore
     private Account userAccount;
 
-    @OneToOne(mappedBy = "profile", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "profile", cascade = {CascadeType.ALL})
     private Address address;
 
     public Account getUserAccount() {
