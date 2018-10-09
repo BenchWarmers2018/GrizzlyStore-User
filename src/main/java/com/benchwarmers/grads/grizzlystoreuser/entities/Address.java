@@ -1,6 +1,9 @@
 package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -56,6 +59,7 @@ public class Address extends Data {
             orphanRemoval = true
     )
     @JoinColumn(name = "id_profile_foreign", nullable = false)
+    @JsonIgnore
     private Profile profile;
 
     public String getAddressUnitNo() { return addressUnitNo; }
@@ -126,5 +130,10 @@ public class Address extends Data {
 
     public Integer getIdAddress() {
         return idAddress;
+    }
+
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 }

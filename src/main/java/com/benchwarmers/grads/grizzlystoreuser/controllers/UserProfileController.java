@@ -45,13 +45,16 @@ public class UserProfileController {
         Profile profile = account.getProfile();
         if (profile == null) {
             createErrorMessage(response, "Account has no profile.");
-        } else {
-            Address address = address_repository.findAddressByProfile(profile);
-            response.setStatus(HttpStatus.OK);
-            response.addEntity(profile);
-            response.addEntity(address);
-            System.out.println("Getting here");
+            return response.createResponse();
         }
+        Address address = address_repository.findAddressByProfile(profile);
+        if (address == null) {
+            createErrorMessage(response, "Account has no profile.");
+            return response.createResponse();
+        }
+        response.setStatus(HttpStatus.OK);
+        response.addEntity(account);
+        System.out.println("Getting here");
         System.out.println(profile);
         return response.createResponse();
     }
@@ -82,11 +85,13 @@ public class UserProfileController {
     @CrossOrigin
     @RequestMapping(value = "/update-profile", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
-    String postUpdatedProfileDetails(@RequestBody String json, @RequestHeader(value="accountID") String accountID,
-                                     @RequestHeader(value="SUBMISSION_TYPE") String type) {
+    ResponseEntity postUpdatedProfileDetails(@RequestBody String json, @RequestHeader(value = "accountID") String accountID,
+                                             @RequestHeader(value = "SUBMISSION_TYPE") String type) {
         System.out.println(json + '\n' + accountID + '\n' + type);
+        JsonResponse response = new JsonResponse();
         JSONObject profileUpdated = new JSONObject(json);
         System.out.println("Updated Profiles: " + profileUpdated);
+        Address address = new Address();
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         Profile profile = account.getProfile();
         String output = "";
@@ -103,8 +108,13 @@ public class UserProfileController {
             default:
                 break;
         }
+        profile = profile_repository.findByUserAccount(account);
+        address = address_repository.findAddressByProfile(profile);
         System.out.println(account);
-        return output;
+        response.addEntity(profile);
+        response.addEntity(address);
+        response.addResponseMessage(output);
+        return response.createResponse();
     }
 
     private String updatePersonalDetails(JSONObject details, Profile profile) {
@@ -124,8 +134,7 @@ public class UserProfileController {
             profile_repository.save(profile);
             return "Personal details updated successfully!";
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return "Unable to update personal details. " + e.toString();
         }
 
@@ -137,8 +146,7 @@ public class UserProfileController {
             account.setAccountPassword(newPassword);
             account_repository.save(account);
             return "Password updated successfully!";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return "Unable to update password. " + e.toString();
         }
     }
@@ -173,8 +181,7 @@ public class UserProfileController {
                 address.setAddressStreet(unitNo);
             address_repository.save(address);
             return "Address updated successfully!";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return "Unable to update address. " + e.toString();
         }
     }

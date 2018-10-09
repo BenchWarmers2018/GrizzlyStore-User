@@ -41,10 +41,10 @@ public class Profile extends Data {
 
     @OneToOne(cascade =  CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_account_foreign", nullable = false)
+    @JsonIgnore
     private Account userAccount;
 
-    @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JsonIgnore
+    @OneToOne(mappedBy = "profile", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private Address address;
 
     public Account getUserAccount() {
@@ -53,6 +53,15 @@ public class Profile extends Data {
 
     public void setUserAccount(Account userAccount) {
         this.userAccount = userAccount;
+    }
+
+    public void setAddress(Address address) {
+        address.setProfile(this);
+        this.address = address;
+    }
+
+    public Address getAddress() {
+        return this.address;
     }
 
     public Integer getIdProfile() {

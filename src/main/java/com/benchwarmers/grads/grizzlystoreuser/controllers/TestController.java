@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,13 +21,16 @@ public class TestController {
     private Address_Repository addressRepo;
 
     @Autowired
+    private Account_Repository accountRepository;
+
+    @Autowired
     private Profile_Repository profileRepository;
 
     @RequestMapping(path = "seed")
-    public Profile seedData()
+    public List<Account> seedData()
     {
         Account tempA = new Account();
-        tempA.setAccountEmailAddress("paarthbhasin@gmail.com");
+        tempA.setAccountEmailAddress("pb7@gmail.com");
         tempA.setAdminStatus(false);
         tempA.setAccountPassword("password");
 
@@ -36,8 +40,7 @@ public class TestController {
         tempP.setProfileImage("/Users/723313/Documents/Project/GrizzlyStore-React/src/images/profile_images/profile-pic.png");
         tempP.setProfilePhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
-
-        profileRepository.save(tempP);
+        tempA.setProfile(tempP);
 
         Address tempAddress = new Address();
 
@@ -49,10 +52,19 @@ public class TestController {
         tempAddress.setAddressPostcode("3924");
         tempAddress.setAddressState("VIC");
         tempAddress.setAddressCountry("Australia");
-        tempAddress.setProfile(tempP);
-        addressRepo.save(tempAddress);
+        //tempP.setAddress(tempAddress);
+        //tempAddress.setProfile(tempP);
+//        accountRepository.save(tempA);
+//        profileRepository.save(tempP);
+        tempP.setAddress(tempAddress);
+        tempA.setProfile(tempP);
 
+        addressRepo.save(tempAddress); // Cascade Insert. Inserts everything with just one insert
 
-        return tempP;
+        //Account account = accountRepository.findByIdAccount(tempA.getIdAccount());
+        System.out.println(accountRepository.findAll().get(0).getProfile());
+        // TESTING CASCADE DELETE. WORKS BOTH WAYS
+        //profileRepository.delete(profileRepository.findAll().get(0));
+        return accountRepository.findAll();
     }
 }

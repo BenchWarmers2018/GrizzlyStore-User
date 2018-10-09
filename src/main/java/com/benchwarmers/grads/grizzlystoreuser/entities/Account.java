@@ -2,6 +2,8 @@ package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -45,8 +47,7 @@ public class Account extends Data {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
 
-    @OneToOne(mappedBy = "userAccount", cascade = {CascadeType.ALL})
-    @JsonIgnore
+    @OneToOne(mappedBy = "userAccount", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private Profile profile;
 
     //Getter and Setters
@@ -96,6 +97,13 @@ public class Account extends Data {
     }
 
     public void setProfile(Profile profile) {
+        profile.setUserAccount(this);
         this.profile = profile;
     }
+
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
+
 }
