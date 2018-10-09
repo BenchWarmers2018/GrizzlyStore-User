@@ -6,13 +6,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "Account")
@@ -45,8 +43,14 @@ public class Account extends Data {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
 
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     @OneToOne(mappedBy = "userAccount", cascade = {CascadeType.ALL})
-    @JsonIgnore
     private Profile profile;
 
     //Getter and Setters
@@ -97,5 +101,13 @@ public class Account extends Data {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

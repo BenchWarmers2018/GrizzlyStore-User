@@ -2,22 +2,47 @@ package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
 import com.benchwarmers.grads.grizzlystoreuser.JsonResponse;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
+import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
+import com.benchwarmers.grads.grizzlystoreuser.entities.Role;
+import com.benchwarmers.grads.grizzlystoreuser.entities.RoleName;
+import com.benchwarmers.grads.grizzlystoreuser.payload.JwtAuthenticationResponse;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.RoleRepository;
+import com.benchwarmers.grads.grizzlystoreuser.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/register")
 public class RegisterController
 {
     @Autowired
     Account_Repository newAccount;
-    @CrossOrigin
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    JwtTokenProvider tokenProvider;
+
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public ResponseEntity createProfile(@RequestBody Account user)
     {
@@ -36,18 +61,20 @@ public class RegisterController
             emailCheck = true;
         }
         //Password is set here as well as admin is set to false by default
-        newUser.setAccountPassword(user.getAccountPassword());
+        newUser.setAccountPassword(passwordEncoder.encode(user.getAccountPassword()));
         newUser.setAdminStatus(false);
 
         //Also need to check for .com at end of email
         //Function checks if email address already exists in database and that it passes the checks beforehand
         if(!newAccount.existsByAccountEmailAddress(user.getAccountEmailAddress()) && emailCheck == false)
         {
+            Role userRole = roleRepository.findByName(RoleName.ROLE_USER);
+            userRole.setName(RoleName.ROLE_USER);
+            newUser.setRoles(Collections.singleton(userRole));
             JsonResponse response = new JsonResponse();
             newAccount.save(newUser);
             response.setStatus(HttpStatus.OK);
             response.addEntity(newUser);
-            //return ResponseEntity.ok(newUser);
             return response.createResponse();
         }
         else if(emailCheck == true)
@@ -57,7 +84,6 @@ public class RegisterController
             response.setStatus(HttpStatus.BAD_REQUEST);
             response.addErrorMessage("Email not in correct format");
             return response.createResponse();
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email not in correct format");
         }
         else
         {
@@ -65,9 +91,12 @@ public class RegisterController
             response.setStatus(HttpStatus.BAD_REQUEST);
             response.addErrorMessage("Email address already exists");
             return response.createResponse();
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
+
+
     }
+
+
     //This function checks if an email address contains an @ and followed by a '.'
     public static boolean isValid(String email)
     {
