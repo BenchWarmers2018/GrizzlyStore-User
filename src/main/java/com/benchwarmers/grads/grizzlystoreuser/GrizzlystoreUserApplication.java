@@ -7,12 +7,15 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
-
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 @EntityScan(basePackageClasses = {
         GrizzlystoreUserApplication.class,
         Jsr310JpaConverters.class
 })
+
+
+@EnableEurekaClient
 public class GrizzlystoreUserApplication {
 
     @PostConstruct

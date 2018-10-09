@@ -39,9 +39,7 @@ public class Profile extends Data {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
 
-    @OneToOne(cascade =  CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToOne(cascade =  CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_account_foreign", nullable = false)
     @JsonIgnore
     private Account userAccount;

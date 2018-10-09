@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/login")
 @CrossOrigin
+@RequestMapping(path = "/login")
 public class LoginController {
     @Autowired
     private Account_Repository accRepo;

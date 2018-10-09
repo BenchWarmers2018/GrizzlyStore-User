@@ -1,8 +1,10 @@
 package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
 import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
+import com.benchwarmers.grads.grizzlystoreuser.entities.Address;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.Address_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,9 @@ public class TestController {
     @Autowired
     private Profile_Repository profileRepo;
 
+    @Autowired
+    private Address_Repository addressRepo;
+
     @RequestMapping(path = "seed")
     public Profile seedData()
     {
@@ -32,11 +37,23 @@ public class TestController {
         Profile tempP = new Profile();
         tempP.setProfileFirstName("avtar");
         tempP.setProfileLastName("singh");
-        tempP.setProfileImage("image");
+        tempP.setProfileImage("/Users/723313/Documents/Project/GrizzlyStore-React/src/images/profile_images/profile-pic.png");
         tempP.setProfilePhoneNumber("0403566491");
         tempP.setUserAccount(tempA);
         profileRepo.save(tempP);
 
+        Address tempAddress = new Address();
+
+        tempAddress.setAddressUnitNo("1");
+        tempAddress.setAddressStreetNo("3");
+        tempAddress.setAddressStreet("Fake");
+        tempAddress.setAddressStreetType("St");
+        tempAddress.setAddressCity("Suburb");
+        tempAddress.setAddressPostcode("3924");
+        tempAddress.setAddressState("VIC");
+        tempAddress.setAddressCountry("Australia");
+        tempAddress.setProfile(tempP);
+        addressRepo.save(tempAddress);
 
         return tempP;
     }

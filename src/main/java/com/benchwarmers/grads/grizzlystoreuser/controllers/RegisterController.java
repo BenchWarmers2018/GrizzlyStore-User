@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/register")
 public class RegisterController
 {
@@ -42,7 +43,6 @@ public class RegisterController
     @Autowired
     JwtTokenProvider tokenProvider;
 
-    @CrossOrigin
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public ResponseEntity createProfile(@RequestBody Account user)
     {

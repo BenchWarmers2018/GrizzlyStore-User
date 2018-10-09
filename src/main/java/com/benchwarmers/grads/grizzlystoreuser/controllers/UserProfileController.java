@@ -2,8 +2,11 @@ package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
 import com.benchwarmers.grads.grizzlystoreuser.JsonResponse;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
+import com.benchwarmers.grads.grizzlystoreuser.entities.Address;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.Address_Repository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +25,9 @@ public class UserProfileController {
     @Autowired
     private Account_Repository account_repository;
 
+    @Autowired
+    private Address_Repository address_repository;
+
     @CrossOrigin
     @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
@@ -35,8 +41,10 @@ public class UserProfileController {
         if (profile == null) {
             createErrorMessage(response, "Account has no profile.");
         } else {
+            Address address = address_repository.findAddressByProfile(profile);
             response.setStatus(HttpStatus.OK);
             response.addEntity(profile);
+            response.addEntity(address);
             System.out.println("Getting here");
         }
         System.out.println(profile);
@@ -57,11 +65,21 @@ public class UserProfileController {
         if (profile == null) {
             createErrorMessage(response, "Account has no profile.");
         } else {
+            Address address = address_repository.findAddressByProfile(profile);
             response.setStatus(HttpStatus.OK);
             response.addEntity(profile);
+            response.addEntity(address);
         }
         System.out.println(profile);
         return response.createResponse();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/update-profile", method = POST, consumes = MediaType.ALL_VALUE)
+    public @ResponseBody String postUpdatedProfileDetails(@RequestBody String json) {
+        JSONObject profileUpdated = new JSONObject(json);
+        System.out.println("Updated Profiles: " + profileUpdated);
+        return "Profile Updating Successful";
     }
 
     private void createErrorMessage(JsonResponse response, String string) {
