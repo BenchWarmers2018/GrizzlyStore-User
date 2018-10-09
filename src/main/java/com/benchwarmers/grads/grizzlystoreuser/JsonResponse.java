@@ -12,7 +12,6 @@ public class JsonResponse {
     private Map<String, Object> body = new HashMap<String, Object>();
     private List<Object> entities = new ArrayList<>();
     private List<String> errors = new ArrayList<>();
-    private String message = null;
     private HttpStatus status;
 
     public JsonResponse() {
@@ -36,24 +35,22 @@ public class JsonResponse {
     public void setStatus(HttpStatus status) {
         this.status = status;
     }
-
-    public void addResponseMessage(String message) {
-        this.message = message;
+    
+    public void addErrorMessage(String error) {
+        errors.add(error);
     }
-
-    public void addErrorMessage(String error) { errors.add(error); }
 
     public void addEntity(Data data) {
         entities.add(data);
     }
 
     public void addAllErrors(List<String> listOfErrors) {
-        for(String error : listOfErrors)
+        for (String error : listOfErrors)
             errors.add(error);
     }
 
     public void addAllEntities(List<Data> listOfEntities) {
-        for(Data entity : listOfEntities)
+        for (Data entity : listOfEntities)
             entities.add(entity);
     }
 
@@ -71,8 +68,6 @@ public class JsonResponse {
         body.put("entities", entities);
 
         body.put("errors", errors);
-
-        body.put("message", message);
 
         return ResponseEntity.status(status).body(body);
     }

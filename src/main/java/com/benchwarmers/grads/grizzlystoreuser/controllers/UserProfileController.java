@@ -91,67 +91,59 @@ public class UserProfileController {
         JsonResponse response = new JsonResponse();
         JSONObject profileUpdated = new JSONObject(json);
         System.out.println("Updated Profiles: " + profileUpdated);
-        Address address = new Address();
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         Profile profile = account.getProfile();
-        String output = "";
         switch (type) {
             case "Personal":
-                output = updatePersonalDetails(profileUpdated, profile);
+                updatePersonalDetails(response, profileUpdated, profile);
                 break;
             case "Password":
-                output = updatePassword(profileUpdated, account);
+                updatePassword(response, profileUpdated, account);
                 break;
             case "Address":
-                output = updateAddress(profileUpdated, profile);
+                updateAddress(response, profileUpdated, profile);
                 break;
             default:
                 break;
         }
-        profile = profile_repository.findByUserAccount(account);
-        address = address_repository.findAddressByProfile(profile);
+        account = account_repository.findByIdAccount(UUID.fromString(accountID));
         System.out.println(account);
-        response.addEntity(profile);
-        response.addEntity(address);
-        response.addResponseMessage(output);
+        response.addEntity(account);
         return response.createResponse();
     }
 
-    private String updatePersonalDetails(JSONObject details, Profile profile) {
+    private void updatePersonalDetails(JsonResponse response, JSONObject details, Profile profile) {
         try {
             String newPhone = details.getString("phone");
             String firstName = details.getString("firstName");
             String lastName = details.getString("lastName");
-            if (!newPhone.isEmpty()) {
-                profile.setProfilePhoneNumber(newPhone);
-            }
-            if (!firstName.isEmpty()) {
-                profile.setProfileFirstName(firstName);
-            }
-            if (!lastName.isEmpty()) {
-                profile.setProfileLastName(lastName);
-            }
+            profile.setProfilePhoneNumber(newPhone);
+            profile.setProfileFirstName(firstName);
+            profile.setProfileLastName(lastName);
             profile_repository.save(profile);
-            return "Personal details updated successfully!";
+            response.setStatus(HttpStatus.OK);
 
         } catch (Exception e) {
-            return "Unable to update personal details. " + e.toString();
+            response.addErrorMessage("Unable to update personal details. " + e.toString());
+            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
 
-    private String updatePassword(JSONObject password, Account account) {
+    private void updatePassword(JsonResponse response, JSONObject password, Account account) {
         String newPassword = password.getString("password");
         try {
             account.setAccountPassword(newPassword);
             account_repository.save(account);
-            return "Password updated successfully!";
+            response.setStatus(HttpStatus.OK);
+
         } catch (Exception e) {
-            return "Unable to update password. " + e.toString();
+            response.addErrorMessage("Unable to update password. " + e.toString());
+            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
-    private String updateAddress(JSONObject addressDetails, Profile profile) {
+    private void updateAddress(JsonResponse response, JSONObject addressDetails, Profile profile) {
 
         try {
             Address address = address_repository.findAddressByProfile(profile);
@@ -163,26 +155,20 @@ public class UserProfileController {
             String streetNo = addressDetails.getString("streetNo");
             String state = addressDetails.getString("state");
             String unitNo = addressDetails.getString("unitNo");
-            if (!country.isEmpty())
-                address.setAddressCountry(country);
-            if (!postcode.isEmpty())
-                address.setAddressPostcode(postcode);
-            if (!state.isEmpty())
-                address.setAddressState(state);
-            if (!city.isEmpty())
-                address.setAddressCity(city);
-            if (!street.isEmpty())
-                address.setAddressStreet(street);
-            if (!streetNo.isEmpty())
-                address.setAddressStreet(streetNo);
-            if (!streetType.isEmpty())
-                address.setAddressStreet(streetType);
-            if (!unitNo.isEmpty())
-                address.setAddressStreet(unitNo);
+            address.setAddressCountry(country);
+            address.setAddressPostcode(postcode);
+            address.setAddressState(state);
+            address.setAddressCity(city);
+            address.setAddressStreet(street);
+            address.setAddressStreet(streetNo);
+            address.setAddressStreet(streetType);
+            address.setAddressStreet(unitNo);
             address_repository.save(address);
-            return "Address updated successfully!";
+            response.setStatus(HttpStatus.OK);
+
         } catch (Exception e) {
-            return "Unable to update address. " + e.toString();
+            response.addErrorMessage("Unable to update address. " + e.toString());
+            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
