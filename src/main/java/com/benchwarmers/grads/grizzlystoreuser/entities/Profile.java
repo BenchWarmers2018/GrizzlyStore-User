@@ -18,19 +18,19 @@ public class Profile extends Data {
     @Column(name = "id_Profile", nullable = false)
     private Integer idProfile;
 
-    @Column(name = "profile_FirstName", nullable = false)
+    @Column(name = "profile_FirstName")
     @Length(max=50, message="First names must be less than or equal to {max} characters")
     private String profileFirstName;
 
-    @Column(name = "profile_LastName", nullable = false)
+    @Column(name = "profile_LastName")
     @Length(max=50, message="Last names must be less than or equal to {max} characters")
     private String profileLastName;
 
-    @Column(name = "profile_PhoneNumber", nullable = false)
+    @Column(name = "profile_PhoneNumber")
     @Length(min=10, max=10, message="Phone numbers must be equal to {max} characters")
     private String profilePhoneNumber;
 
-    @Column(name = "profile_Image", nullable = false)
+    @Column(name = "profile_Image")
     @Length(max=256, message="The URL for images must be less than or equal to {max} characters")
     private String profileImage;
 
