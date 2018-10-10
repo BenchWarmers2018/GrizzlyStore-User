@@ -40,6 +40,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                logger.debug("doFilterInternal", authentication.toString());
+
             }
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
@@ -51,7 +53,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            logger.debug("getJwtFromRequest", bearerToken.substring(7));
+            return bearerToken.substring(7);
         }
         return null;
     }

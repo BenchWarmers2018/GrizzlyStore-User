@@ -93,6 +93,7 @@ public class LoginController {
 //        System.out.println("Id is " + id);
 //        String username = currentUser.getUsername();
 //        System.out.println("Uername is " + username);
+            System.out.println("login/user: " + currentUser.toString());
             UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
             return userSummary;
         }
