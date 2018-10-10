@@ -2,6 +2,8 @@ package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -42,7 +44,6 @@ public class Account extends Data {
     @Column(name = "DateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
-
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -100,7 +101,13 @@ public class Account extends Data {
     }
 
     public void setProfile(Profile profile) {
+        profile.setUserAccount(this);
         this.profile = profile;
+    }
+
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 
     public Set<Role> getRoles() {

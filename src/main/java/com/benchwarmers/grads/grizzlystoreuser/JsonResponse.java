@@ -35,20 +35,22 @@ public class JsonResponse {
     public void setStatus(HttpStatus status) {
         this.status = status;
     }
-
-    public void addErrorMessage(String error) { errors.add(error); }
+    
+    public void addErrorMessage(String error) {
+        errors.add(error);
+    }
 
     public void addEntity(Data data) {
         entities.add(data);
     }
 
     public void addAllErrors(List<String> listOfErrors) {
-        for(String error : listOfErrors)
+        for (String error : listOfErrors)
             errors.add(error);
     }
 
     public void addAllEntities(List<Data> listOfEntities) {
-        for(Data entity : listOfEntities)
+        for (Data entity : listOfEntities)
             entities.add(entity);
     }
 
