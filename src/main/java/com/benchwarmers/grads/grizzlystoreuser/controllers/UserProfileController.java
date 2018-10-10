@@ -6,6 +6,7 @@ import com.benchwarmers.grads.grizzlystoreuser.entities.Address;
 import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Address_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,9 +29,13 @@ public class UserProfileController {
     @Autowired
     private Address_Repository address_repository;
 
+    @Autowired
+    private Profile_Repository profile_repository;
+
     @CrossOrigin
     @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
-    public @ResponseBody ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
+    public @ResponseBody
+    ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
         JsonResponse response = new JsonResponse();
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         if (account == null) {
@@ -40,13 +45,16 @@ public class UserProfileController {
         Profile profile = account.getProfile();
         if (profile == null) {
             createErrorMessage(response, "Account has no profile.");
-        } else {
-            Address address = address_repository.findAddressByProfile(profile);
-            response.setStatus(HttpStatus.OK);
-            response.addEntity(profile);
-            response.addEntity(address);
-            System.out.println("Getting here");
+            return response.createResponse();
         }
+        Address address = address_repository.findAddressByProfile(profile);
+        if (address == null) {
+            createErrorMessage(response, "Account has no profile.");
+            return response.createResponse();
+        }
+        response.setStatus(HttpStatus.OK);
+        response.addEntity(account);
+        System.out.println("Getting here");
         System.out.println(profile);
         return response.createResponse();
     }
@@ -76,11 +84,94 @@ public class UserProfileController {
 
     @CrossOrigin
     @RequestMapping(value = "/update-profile", method = POST, consumes = MediaType.ALL_VALUE)
-    public @ResponseBody String postUpdatedProfileDetails(@RequestBody String json) {
+    public @ResponseBody
+    ResponseEntity postUpdatedProfileDetails(@RequestBody String json, @RequestHeader(value = "accountID") String accountID,
+                                             @RequestHeader(value = "SUBMISSION_TYPE") String type) {
+        System.out.println(json + '\n' + accountID + '\n' + type);
+        JsonResponse response = new JsonResponse();
         JSONObject profileUpdated = new JSONObject(json);
         System.out.println("Updated Profiles: " + profileUpdated);
-        return "Profile Updating Successful";
+        Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
+        Profile profile = account.getProfile();
+        switch (type) {
+            case "Personal":
+                updatePersonalDetails(response, profileUpdated, profile);
+                break;
+            case "Password":
+                updatePassword(response, profileUpdated, account);
+                break;
+            case "Address":
+                updateAddress(response, profileUpdated, profile);
+                break;
+            default:
+                break;
+        }
+        account = account_repository.findByIdAccount(UUID.fromString(accountID));
+        System.out.println(account);
+        response.addEntity(account);
+        return response.createResponse();
     }
+
+    private void updatePersonalDetails(JsonResponse response, JSONObject details, Profile profile) {
+        try {
+            String newPhone = details.getString("phone");
+            String firstName = details.getString("firstName");
+            String lastName = details.getString("lastName");
+            profile.setProfilePhoneNumber(newPhone);
+            profile.setProfileFirstName(firstName);
+            profile.setProfileLastName(lastName);
+            profile_repository.save(profile);
+            response.setStatus(HttpStatus.OK);
+
+        } catch (Exception e) {
+            response.addErrorMessage("Unable to update personal details. " + e.toString());
+            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    private void updatePassword(JsonResponse response, JSONObject password, Account account) {
+        String newPassword = password.getString("password");
+        try {
+            account.setAccountPassword(newPassword);
+            account_repository.save(account);
+            response.setStatus(HttpStatus.OK);
+
+        } catch (Exception e) {
+            response.addErrorMessage("Unable to update password. " + e.toString());
+            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    private void updateAddress(JsonResponse response, JSONObject addressDetails, Profile profile) {
+
+        try {
+            Address address = address_repository.findAddressByProfile(profile);
+            String country = addressDetails.getString("country");
+            String city = addressDetails.getString("city");
+            String postcode = addressDetails.getString("postcode");
+            String streetType = addressDetails.getString("streetType");
+            String street = addressDetails.getString("street");
+            String streetNo = addressDetails.getString("streetNo");
+            String state = addressDetails.getString("state");
+            String unitNo = addressDetails.getString("unitNo");
+            address.setAddressCountry(country);
+            address.setAddressPostcode(postcode);
+            address.setAddressState(state);
+            address.setAddressCity(city);
+            address.setAddressStreet(street);
+            address.setAddressStreet(streetNo);
+            address.setAddressStreet(streetType);
+            address.setAddressStreet(unitNo);
+            address_repository.save(address);
+            response.setStatus(HttpStatus.OK);
+
+        } catch (Exception e) {
+            response.addErrorMessage("Unable to update address. " + e.toString());
+            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
 
     private void createErrorMessage(JsonResponse response, String string) {
         response.setStatus(HttpStatus.NOT_ACCEPTABLE);

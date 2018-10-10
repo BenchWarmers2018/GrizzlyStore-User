@@ -55,6 +55,15 @@ public class Profile extends Data {
         this.userAccount = userAccount;
     }
 
+    public void setAddress(Address address) {
+        address.setProfile(this);
+        this.address = address;
+    }
+
+    public Address getAddress() {
+        return this.address;
+    }
+
     public Integer getIdProfile() {
         return idProfile;
     }
