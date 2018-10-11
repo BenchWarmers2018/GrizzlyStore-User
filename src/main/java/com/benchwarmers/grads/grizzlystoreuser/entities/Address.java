@@ -132,8 +132,4 @@ public class Address extends Data {
         return idAddress;
     }
 
-    public String toString() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(this);
-    }
 }

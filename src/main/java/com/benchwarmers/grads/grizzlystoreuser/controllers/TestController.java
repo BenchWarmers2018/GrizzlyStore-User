@@ -30,7 +30,7 @@ public class TestController {
     public List<Account> seedData()
     {
         Account tempA = new Account();
-        tempA.setAccountEmailAddress("pb7@gmail.com");
+        tempA.setAccountEmailAddress("pb07@gmail.com");
         tempA.setAdminStatus(false);
         tempA.setAccountPassword("password");
 
@@ -39,7 +39,6 @@ public class TestController {
         tempP.setProfileLastName("Bhasin");
         tempP.setProfileImage("/Users/723313/Documents/Project/GrizzlyStore-React/src/images/profile_images/profile-pic.png");
         tempP.setProfilePhoneNumber("0403566491");
-        tempP.setUserAccount(tempA);
         tempA.setProfile(tempP);
 
         Address tempAddress = new Address();
