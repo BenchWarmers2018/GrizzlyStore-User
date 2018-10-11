@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -48,15 +49,10 @@ public class UserProfileController {
             createErrorMessage(response, "Account has no profile.");
             return response.createResponse();
         }
-        Address address = address_repository.findAddressByProfile(profile);
-        if (address == null) {
-            createErrorMessage(response, "Account has no profile.");
-            return response.createResponse();
-        }
         response.setStatus(HttpStatus.OK);
         response.addEntity(account);
         System.out.println("Getting here");
-        System.out.println(profile);
+        System.out.println(profile.toString());
         return response.createResponse();
     }
 
@@ -95,9 +91,6 @@ public class UserProfileController {
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         Profile profile = account.getProfile();
         switch (type) {
-            case "Personal":
-                updatePersonalDetails(response, profileUpdated, profile);
-                break;
             case "Password":
                 updatePassword(response, profileUpdated, account);
                 break;
@@ -112,6 +105,16 @@ public class UserProfileController {
         response.addEntity(account);
         return response.createResponse();
     }
+
+    @CrossOrigin
+    @RequestMapping(value = "/update-personal", method = RequestMethod.POST, consumes = "multipart/form-data")
+    @ResponseBody
+    public void uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("firstName") String fName,
+                           @RequestParam("lastName") String lName, @RequestParam("mobile") String mobile) {
+
+
+    }
+
 
     private void updatePersonalDetails(JsonResponse response, JSONObject details, Profile profile) {
         try {

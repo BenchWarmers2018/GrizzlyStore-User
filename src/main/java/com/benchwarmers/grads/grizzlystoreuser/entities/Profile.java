@@ -2,6 +2,8 @@ package com.benchwarmers.grads.grizzlystoreuser.entities;
 
 import com.benchwarmers.grads.grizzlystoreuser.Data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
@@ -39,7 +41,7 @@ public class Profile extends Data {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
 
-    @OneToOne(cascade =  CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_account_foreign", nullable = false)
     @JsonIgnore
     private Account userAccount;
@@ -56,7 +58,8 @@ public class Profile extends Data {
     }
 
     public void setAddress(Address address) {
-        address.setProfile(this);
+        if (address != null)
+            address.setProfile(this);
         this.address = address;
     }
 
@@ -111,5 +114,6 @@ public class Profile extends Data {
     public void setLastModified(Date last_modified) {
         this.lastModified = last_modified;
     }
+
 
 }

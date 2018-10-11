@@ -101,13 +101,9 @@ public class Account extends Data {
     }
 
     public void setProfile(Profile profile) {
-        profile.setUserAccount(this);
+        if (profile != null)
+            profile.setUserAccount(this);
         this.profile = profile;
-    }
-
-    public String toString() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(this);
     }
 
     public Set<Role> getRoles() {
