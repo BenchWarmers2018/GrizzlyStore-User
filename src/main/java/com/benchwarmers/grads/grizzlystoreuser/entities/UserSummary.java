@@ -6,12 +6,12 @@ public class UserSummary {
 
     private UUID id;
     private String username;
-    private String name;
+    private Profile profile;
 
-    public UserSummary(UUID id, String username, String name) {
+    public UserSummary(UUID id, String username, Profile profile) {
         this.id = id;
         this.username = username;
-        this.name = name;
+        this.profile = profile;
     }
 
     public UUID getId() {
@@ -30,11 +30,11 @@ public class UserSummary {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

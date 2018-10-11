@@ -22,6 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(path = "/user") // User profile
+@CrossOrigin
 public class UserProfileController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class UserProfileController {
     @Autowired
     private Profile_Repository profile_repository;
 
-    @CrossOrigin
+
     @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
     ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
@@ -55,7 +56,7 @@ public class UserProfileController {
         return response.createResponse();
     }
 
-    @CrossOrigin
+
     @RequestMapping(value = "/profile-account", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
     ResponseEntity getUserProfileFromAccount(@RequestBody Account account) {
@@ -78,7 +79,7 @@ public class UserProfileController {
         return response.createResponse();
     }
 
-    @CrossOrigin
+
     @RequestMapping(value = "/update-profile", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
     ResponseEntity postUpdatedProfileDetails(@RequestBody String json, @RequestHeader(value = "accountID") String accountID,

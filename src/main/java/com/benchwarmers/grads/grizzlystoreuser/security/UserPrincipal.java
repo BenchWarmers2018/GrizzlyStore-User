@@ -20,7 +20,7 @@ public class UserPrincipal implements UserDetails {
 
     private UUID id;
 
-    private String name;
+    private Profile profile;
 
     private String username;
 
@@ -35,12 +35,12 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(UUID id, String username, String email, String password, String name, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(UUID id, String username, String email, String password,Profile profile , Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.name = name;
+        this.profile = profile;
         this.authorities = authorities;
     }
 
@@ -57,8 +57,7 @@ public class UserPrincipal implements UserDetails {
                 account.getAccountEmailAddress(),
                 account.getAccountEmailAddress(),
                 account.getAccountPassword(),
-//                profile.getProfileFirstName(),
-                "hello",
+                profile,
                 authorities
         );
     }
@@ -68,8 +67,8 @@ public class UserPrincipal implements UserDetails {
     }
 
 
-    public String getName() {
-        return name;
+    public Profile getProfile() {
+        return profile;
     }
 
     public String getEmail() {
