@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.UUID;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -32,6 +34,9 @@ public class UserProfileController {
 
     @Autowired
     private Profile_Repository profile_repository;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @CrossOrigin
     @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
@@ -68,13 +73,12 @@ public class UserProfileController {
         Profile profile = newAcc.getProfile();
         if (profile == null) {
             createErrorMessage(response, "Account has no profile.");
-        } else {
-            Address address = address_repository.findAddressByProfile(profile);
-            response.setStatus(HttpStatus.OK);
-            response.addEntity(profile);
-            response.addEntity(address);
+            return response.createResponse();
         }
-        System.out.println(profile);
+        response.setStatus(HttpStatus.OK);
+        response.addEntity(account);
+        System.out.println("Getting here");
+        System.out.println(profile.toString());
         return response.createResponse();
     }
 
@@ -106,31 +110,48 @@ public class UserProfileController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/update-personal", method = RequestMethod.POST, consumes = "multipart/form-data")
-    @ResponseBody
-    public void uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("firstName") String fName,
-                           @RequestParam("lastName") String lName, @RequestParam("mobile") String mobile) {
-
-
-    }
-
-
-    private void updatePersonalDetails(JsonResponse response, JSONObject details, Profile profile) {
-        try {
-            String newPhone = details.getString("phone");
-            String firstName = details.getString("firstName");
-            String lastName = details.getString("lastName");
-            profile.setProfilePhoneNumber(newPhone);
-            profile.setProfileFirstName(firstName);
-            profile.setProfileLastName(lastName);
-            profile_repository.save(profile);
-            response.setStatus(HttpStatus.OK);
-
-        } catch (Exception e) {
-            response.addErrorMessage("Unable to update personal details. " + e.toString());
-            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+    @RequestMapping(value = "/update-personal", method = POST, consumes = "multipart/form-data")
+    public @ResponseBody
+    ResponseEntity uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("firstName") String firstName,
+                              @RequestParam("lastName") String lastName, @RequestParam("phone") String phone,
+                              @RequestHeader(value = "accountID") String accountID) {
+        JsonResponse response = new JsonResponse();
+        Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
+        if (account == null) {
+            createErrorMessage(response, "Account ID " + accountID + " doesn't exist.");
+            return response.createResponse();
         }
-
+        Profile profile = account.getProfile();
+        if (profile == null) {
+            createErrorMessage(response, "Account has no profile.");
+            return response.createResponse();
+        }
+        if (!file.isEmpty()) {
+            try {
+                System.out.println("POST REQUEST ACCEPTED");
+                String uploadDir = "/opt/images/grizzlystore/";
+                String filename = file.getOriginalFilename();
+                String filePath = uploadDir + filename;
+                if (!new File(uploadDir).exists()) {
+                    System.out.println("Directory does not exist");
+                    new File(uploadDir).mkdirs();
+                }
+                File dest = new File(filePath);
+                file.transferTo(dest);
+                profile.setProfileImage("http://bw.ausgrads.academy/images/" + filename);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                createErrorMessage(response, "Unable to update user details. " + e.toString());
+                return response.createResponse();
+            }
+        }
+        profile.setProfileFirstName(firstName);
+        profile.setProfileLastName(lastName);
+        profile.setProfilePhoneNumber(phone);
+        profile_repository.save(profile);
+        response.setStatus(HttpStatus.OK);
+        response.addEntity(account);
+        return response.createResponse();
     }
 
     private void updatePassword(JsonResponse response, JSONObject password, Account account) {
@@ -141,8 +162,7 @@ public class UserProfileController {
             response.setStatus(HttpStatus.OK);
 
         } catch (Exception e) {
-            response.addErrorMessage("Unable to update password. " + e.toString());
-            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+            createErrorMessage(response, "Unable to update password. " + e.toString());
         }
     }
 
@@ -168,10 +188,8 @@ public class UserProfileController {
             address.setAddressStreet(unitNo);
             address_repository.save(address);
             response.setStatus(HttpStatus.OK);
-
         } catch (Exception e) {
-            response.addErrorMessage("Unable to update address. " + e.toString());
-            response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+            createErrorMessage(response, "Unable to update address. " + e.toString());
         }
     }
 
