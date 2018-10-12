@@ -67,8 +67,6 @@ public class RegisterController
 
             //Creating empty profile for the new user
             Profile tempProfile = new Profile();
-            Address tempAddress = new Address();
-            tempProfile.setAddress(tempAddress);
             newUser.setProfile(tempProfile);
 
             //Saving the new user with an account and profile.
