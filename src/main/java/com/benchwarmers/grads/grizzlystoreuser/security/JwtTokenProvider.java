@@ -43,6 +43,7 @@ public class JwtTokenProvider
                 .getBody();
         UUID uid = UUID.fromString(claims.getSubject());
 
+        logger.debug("getUserIdFromJWT", uid.toString());
         return uid;
     }
 
@@ -61,6 +62,8 @@ public class JwtTokenProvider
         } catch (IllegalArgumentException ex) {
             logger.error("JWT claims string is empty.");
         }
+
+        logger.error("Invalid token?");
         return false;
     }
 }

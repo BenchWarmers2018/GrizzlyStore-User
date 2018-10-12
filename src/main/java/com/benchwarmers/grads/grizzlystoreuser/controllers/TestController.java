@@ -1,11 +1,10 @@
 package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
-import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
-import com.benchwarmers.grads.grizzlystoreuser.entities.Address;
-import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
+import com.benchwarmers.grads.grizzlystoreuser.entities.*;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Address_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Profile_Repository;
+import com.benchwarmers.grads.grizzlystoreuser.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/")
+@RequestMapping(path = "/test")
 public class TestController {
 
     @Autowired
@@ -26,7 +25,10 @@ public class TestController {
     @Autowired
     private Profile_Repository profileRepository;
 
-    @RequestMapping(path = "seed")
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @RequestMapping(path = "/seed")
     public List<Account> seedData()
     {
         Account tempA = new Account();
@@ -66,4 +68,22 @@ public class TestController {
         //profileRepository.delete(profileRepository.findAll().get(0));
         return accountRepository.findAll();
     }
+
+    @RequestMapping(path = "/addroles")
+    public String seedRoles() {
+
+        Role r1 = new Role(RoleName.ROLE_USER);
+
+        Role r2 = new Role(RoleName.ROLE_ADMIN);
+
+        roleRepository.save(r1);
+        roleRepository.save(r2);
+
+        return "Success with role updates.";
+
+    }
+
+
+
+
 }
