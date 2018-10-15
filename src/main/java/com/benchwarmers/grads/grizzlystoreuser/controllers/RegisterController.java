@@ -1,10 +1,7 @@
 package com.benchwarmers.grads.grizzlystoreuser.controllers;
 
 import com.benchwarmers.grads.grizzlystoreuser.JsonResponse;
-import com.benchwarmers.grads.grizzlystoreuser.entities.Account;
-import com.benchwarmers.grads.grizzlystoreuser.entities.Profile;
-import com.benchwarmers.grads.grizzlystoreuser.entities.Role;
-import com.benchwarmers.grads.grizzlystoreuser.entities.RoleName;
+import com.benchwarmers.grads.grizzlystoreuser.entities.*;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import com.benchwarmers.grads.grizzlystoreuser.repositories.RoleRepository;
 import com.benchwarmers.grads.grizzlystoreuser.security.JwtTokenProvider;
