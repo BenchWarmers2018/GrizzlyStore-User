@@ -194,4 +194,14 @@ public class UserProfileController {
         response.setStatus(HttpStatus.NOT_ACCEPTABLE);
         response.addErrorMessage(string);
     }
+
+
+    @RequestMapping(path = "/update-address", method = RequestMethod.POST)
+    public Account updateProfileAddress(@RequestBody Account account)
+    {
+        Account userAccount = account_repository.findByIdAccount(account.getIdAccount());
+        userAccount.getProfile().setAddress(account.getProfile().getAddress());
+        account_repository.save(userAccount);
+        return userAccount;
+    }
 }

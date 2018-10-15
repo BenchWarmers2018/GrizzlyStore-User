@@ -30,7 +30,7 @@ public class Address extends Data {
     @Length(max=256, message="Address Line 3 must be less than or equal to {max} characters")
     private String addressStreet;
 
-    @Column(name = "address_StreetType", nullable = false)
+    @Column(name = "address_StreetType")
     @Length(max=256, message="Address Line 3 must be less than or equal to {max} characters")
     private String addressStreetType;
 
