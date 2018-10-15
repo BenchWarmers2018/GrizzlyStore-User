@@ -12,6 +12,7 @@ public interface Account_Repository extends JpaRepository<Account, UUID> {
     Account findAccountByAccountEmailAddress(String emailAddress);
     Account findByIdAccount(UUID accountID);
     boolean existsByAccountEmailAddress(String account_EmailAddress);
+    boolean existsByIdAccount(UUID accountID);
 
     @Query(value = "SELECT * FROM account WHERE id_account = ?1", nativeQuery = true)
     Account findByAccountID(UUID id_account);
