@@ -46,7 +46,7 @@ public class Profile extends Data {
     @JsonIgnore
     private Account userAccount;
 
-    @OneToOne(mappedBy = "profile", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "profile", orphanRemoval = true, cascade = CascadeType.ALL)
     private Address address;
 
     public Account getUserAccount() {
@@ -58,6 +58,7 @@ public class Profile extends Data {
     }
 
     public void setAddress(Address address) {
+
         if (address != null)
             address.setProfile(this);
         this.address = address;

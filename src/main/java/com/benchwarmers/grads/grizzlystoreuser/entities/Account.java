@@ -51,7 +51,7 @@ public class Account extends Data {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "userAccount", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "userAccount", orphanRemoval = true, cascade = CascadeType.ALL)
     private Profile profile;
 
     //Getter and Setters

@@ -36,13 +36,13 @@ public class UserProfileController {
     @Autowired
     private Profile_Repository profile_repository;
 
-    @RequestMapping(value = "/profile", method = POST, consumes = MediaType.ALL_VALUE)
+    @RequestMapping(value = "/profile", method = POST)
     public @ResponseBody
-    ResponseEntity getUserProfileFromID(@RequestParam String accountID) {
+    ResponseEntity getUserProfileFromID(@RequestBody Account acc) {
         JsonResponse response = new JsonResponse();
-        Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
+        Account account = account_repository.findByIdAccount(acc.getIdAccount());
         if (account == null) {
-            createErrorMessage(response, "Account ID " + accountID + " doesn't exist.");
+            createErrorMessage(response, "This Account doesn't exist.");
             return response.createResponse();
         }
         Profile profile = account.getProfile();
@@ -52,8 +52,6 @@ public class UserProfileController {
         }
         response.setStatus(HttpStatus.OK);
         response.addEntity(account);
-        System.out.println("Getting here");
-        System.out.println(profile.toString());
         return response.createResponse();
     }
 
@@ -197,11 +195,43 @@ public class UserProfileController {
 
 
     @RequestMapping(path = "/update-address", method = RequestMethod.POST)
-    public Account updateProfileAddress(@RequestBody Account account)
+    public ResponseEntity updateProfileAddress(@RequestBody Account account)
     {
-        Account userAccount = account_repository.findByIdAccount(account.getIdAccount());
-        userAccount.getProfile().setAddress(account.getProfile().getAddress());
-        account_repository.save(userAccount);
-        return userAccount;
+        JsonResponse jsonResponse = new JsonResponse();
+        if(account_repository.existsByIdAccount(account.getIdAccount()))
+        {
+            Account userAccount = account_repository.findByIdAccount(account.getIdAccount());
+            Address address = userAccount.getProfile().getAddress();
+            Address newAddress = account.getProfile().getAddress();
+            if(address != null && newAddress!= null)
+            {
+                address.setAddressUnitNo(newAddress.getAddressUnitNo());
+                address.setAddressStreetNo(newAddress.getAddressStreetNo());
+                address.setAddressStreet(newAddress.getAddressStreet());
+                address.setAddressStreetType(newAddress.getAddressStreetType());
+                address.setAddressCity(newAddress.getAddressCity());
+                address.setAddressState(newAddress.getAddressState());
+                address.setAddressCountry(newAddress.getAddressCountry());
+                address.setAddressPostcode(newAddress.getAddressPostcode());
+            }
+            else {
+                userAccount.getProfile().setAddress(newAddress);
+            }
+            account_repository.save(userAccount);
+            jsonResponse.setStatus(HttpStatus.OK);
+            jsonResponse.addEntity(userAccount);
+            return jsonResponse.createResponse();
+        }
+        else
+        {
+            jsonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            jsonResponse.addErrorMessage("No accounts as such");
+            return jsonResponse.createResponse();
+        }
+
     }
+
+
+
+
 }
