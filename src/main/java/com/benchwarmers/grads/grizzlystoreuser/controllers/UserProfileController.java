@@ -106,6 +106,8 @@ public class UserProfileController {
         return response.createResponse();
     }
 
+
+
     @CrossOrigin
     @RequestMapping(value = "/update-personal", method = RequestMethod.POST, consumes = "multipart/form-data")
     @ResponseBody
@@ -180,5 +182,15 @@ public class UserProfileController {
     private void createErrorMessage(JsonResponse response, String string) {
         response.setStatus(HttpStatus.NOT_ACCEPTABLE);
         response.addErrorMessage(string);
+    }
+
+
+    @RequestMapping(path = "/update-address", method = RequestMethod.POST)
+    public Account updateProfileAddress(@RequestBody Account account)
+    {
+        Account userAccount = account_repository.findByIdAccount(account.getIdAccount());
+        userAccount.getProfile().setAddress(account.getProfile().getAddress());
+        account_repository.save(userAccount);
+        return userAccount;
     }
 }
