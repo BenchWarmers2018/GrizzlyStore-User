@@ -84,23 +84,15 @@ public class UserProfileController {
 
     @RequestMapping(value = "/update-profile", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
-    ResponseEntity postUpdatedProfileDetails(@RequestBody String json, @RequestHeader(value = "accountID") String accountID,
-                                             @RequestHeader(value = "SUBMISSION_TYPE") String type) {
-        System.out.println(json + '\n' + accountID + '\n' + type);
+    ResponseEntity postUpdatedProfileDetails(@RequestBody String json) {
         JsonResponse response = new JsonResponse();
         JSONObject profileUpdated = new JSONObject(json);
+        String accountID = profileUpdated.getString("accountID");
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
-        Profile profile = account.getProfile();
-        switch (type) {
-            case "Password":
-                updatePassword(response, profileUpdated, account);
-                break;
-            case "Address":
-                updateAddress(response, profileUpdated, profile);
-                break;
-            default:
-                break;
-        }
+        //Update password in another method.
+        updatePassword(response, profileUpdated, account);
+
+        //Refreshed Account.
         account = account_repository.findByIdAccount(UUID.fromString(accountID));
         System.out.println(account);
         response.addEntity(account);
