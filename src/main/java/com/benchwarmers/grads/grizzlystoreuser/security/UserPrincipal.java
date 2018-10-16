@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
-    private UUID id;
+    private UUID idAccount;
 
     private Profile profile;
 
@@ -28,17 +27,17 @@ public class UserPrincipal implements UserDetails {
     Profile_Repository profile_repository;
 
     @JsonIgnore
-    private String email;
+    private String accountEmailAddress;
 
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(UUID id, String username, String email, String password,Profile profile , Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
+    public UserPrincipal(UUID idAccount, String username, String accountEmailAddress, String password, Profile profile , Collection<? extends GrantedAuthority> authorities) {
+        this.idAccount = idAccount;
         this.username = username;
-        this.email = email;
+        this.accountEmailAddress = accountEmailAddress;
         this.password = password;
         this.profile = profile;
         this.authorities = authorities;
@@ -62,8 +61,8 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getIdAccount() {
+        return idAccount;
     }
 
 
@@ -71,8 +70,8 @@ public class UserPrincipal implements UserDetails {
         return profile;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAccountEmailAddress() {
+        return accountEmailAddress;
     }
 
     @Override
@@ -115,13 +114,13 @@ public class UserPrincipal implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserPrincipal that = (UserPrincipal) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(idAccount, that.idAccount);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id);
+        return Objects.hash(idAccount);
     }
 
 }
