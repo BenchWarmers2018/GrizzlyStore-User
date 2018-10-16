@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,9 @@ public class UserProfileController {
 
     @Autowired
     private Profile_Repository profile_repository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/profile", method = POST)
     public @ResponseBody
@@ -85,7 +89,6 @@ public class UserProfileController {
         System.out.println(json + '\n' + accountID + '\n' + type);
         JsonResponse response = new JsonResponse();
         JSONObject profileUpdated = new JSONObject(json);
-        System.out.println("Updated Profiles: " + profileUpdated);
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         Profile profile = account.getProfile();
         switch (type) {
@@ -149,15 +152,26 @@ public class UserProfileController {
     }
 
     private void updatePassword(JsonResponse response, JSONObject password, Account account) {
+        String currentPassword = password.getString("currentPassword");
         String newPassword = password.getString("password");
-        try {
-            account.setAccountPassword(newPassword);
-            account_repository.save(account);
-            response.setStatus(HttpStatus.OK);
+        String encodedPassword = passwordEncoder.encode(currentPassword);
+        System.out.println("Current :" + account.getAccountPassword() + " New" + encodedPassword);
 
-        } catch (Exception e) {
-            createErrorMessage(response, "Unable to update password. " + e.toString());
+        if(passwordEncoder.matches(currentPassword, account.getAccountPassword()))
+        {
+            try {
+                account.setAccountPassword(passwordEncoder.encode(newPassword));
+                account_repository.save(account);
+                response.setStatus(HttpStatus.OK);
+
+            } catch (Exception e) {
+                createErrorMessage(response, "Unable to update password. " + e.toString());
+            }
         }
+        else {
+            createErrorMessage(response, "Your current Password didn't match.");
+        }
+
     }
 
     private void updateAddress(JsonResponse response, JSONObject addressDetails, Profile profile) {
