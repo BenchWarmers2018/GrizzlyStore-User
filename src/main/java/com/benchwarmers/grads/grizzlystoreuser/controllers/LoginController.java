@@ -20,8 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/login")
@@ -89,12 +87,12 @@ public class LoginController {
     @PreAuthorize("hasRole('USER')")
         public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
 //        System.out.println(currentUser);
-//        UUID id = currentUser.getId();
+//        UUID id = currentUser.getIdAccount();
 //        System.out.println("Id is " + id);
 //        String username = currentUser.getUsername();
 //        System.out.println("Uername is " + username);
             System.out.println("login/user: " + currentUser.toString());
-            UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getProfile());
+            UserSummary userSummary = new UserSummary(currentUser.getIdAccount(), currentUser.getUsername(), currentUser.getProfile());
             return userSummary;
         }
 
