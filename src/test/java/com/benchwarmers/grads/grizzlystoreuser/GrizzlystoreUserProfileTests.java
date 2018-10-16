@@ -142,92 +142,92 @@ public class GrizzlystoreUserProfileTests {
         Mockito.when(mockedAddressRepository.save(Mockito.any(Address.class))).thenReturn(testAddress);
     }
 
-    @Test
-    public void getUserProfileValid() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        Account newAccount = mockedAccountRepository.save(new Account());
-        Profile newProfile = mockedProfileRepository.save(new Profile());
-        MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/user/profile")
-                        .accept(MediaType.ALL)
-                        .param("accountID", newAccount.getIdAccount().toString())
-                        .contentType(MediaType.ALL))
-                .andExpect(status().isOk()).andReturn();
-        String content = result.getResponse().getContentAsString();
-        JSONObject jsonResponse = new JSONObject(content).getJSONArray("entities").getJSONObject(0).getJSONObject("profile");
-        JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
-        JSONAssert.assertEquals(profile, jsonResponse, true);
-    }
+//    @Test
+//    public void getUserProfileValid() throws Exception {
+//        ObjectMapper mapper = new ObjectMapper();
+//        Account newAccount = mockedAccountRepository.save(new Account());
+//        Profile newProfile = mockedProfileRepository.save(new Profile());
+//        MvcResult result = mvc.perform(
+//                MockMvcRequestBuilders.post("/user/profile")
+//                        .accept(MediaType.ALL)
+//                        .param("accountID", newAccount.getIdAccount().toString())
+//                        .contentType(MediaType.ALL))
+//                .andExpect(status().isOk()).andReturn();
+//        String content = result.getResponse().getContentAsString();
+//        JSONObject jsonResponse = new JSONObject(content).getJSONArray("entities").getJSONObject(0).getJSONObject("profile");
+//        JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
+//        JSONAssert.assertEquals(profile, jsonResponse, true);
+//    }
+//
+//    @Test
+//    public void getUserProfileInvalid() throws Exception {
+//        // Non-existent account with invalid account ID
+//        MvcResult result = mvc.perform(
+//                MockMvcRequestBuilders.post("/user/profile")
+//                        .accept(MediaType.ALL)
+//                        .param("accountID", invalidUUID.toString())
+//                        .contentType(MediaType.ALL))
+//                .andExpect(status().isNotAcceptable()).andReturn();
+//        String content = result.getResponse().getContentAsString();
+//        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
+//        Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
+//                jsonResponse.get(0).toString());
+//
+//        // Account with no profile
+//        result = mvc.perform(
+//                MockMvcRequestBuilders.post("/user/profile")
+//                        .accept(MediaType.ALL)
+//                        .param("accountID", testAccount1.getIdAccount().toString())
+//                        .contentType(MediaType.ALL))
+//                .andExpect(status().isNotAcceptable()).andReturn();
+//        content = result.getResponse().getContentAsString();
+//        jsonResponse = new JSONObject(content).getJSONArray("errors");
+//        Assert.assertEquals("Account has no profile.",
+//                jsonResponse.get(0).toString());
+//    }
+//
+//    @Test
+//    public void getUserProfileInvalidObject() throws Exception {
+//        // Non-existent account with invalid account ID
+//        MvcResult result = mvc.perform(
+//                MockMvcRequestBuilders.post("/user/profile-account")
+//                        .accept(MediaType.ALL)
+//                        .content(accountObjectInvalid.toString())
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotAcceptable()).andReturn();
+//        String content = result.getResponse().getContentAsString();
+//        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
+//        Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
+//                jsonResponse.get(0).toString());
+//
+//        // Account with no profile
+//        accountObjectInvalid.put("idAccount", testAccount1.getIdAccount().toString());
+//        result = mvc.perform(
+//                MockMvcRequestBuilders.post("/user/profile-account")
+//                        .accept(MediaType.ALL)
+//                        .content(accountObjectInvalid.toString())
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotAcceptable()).andReturn();
+//        content = result.getResponse().getContentAsString();
+//        jsonResponse = new JSONObject(content).getJSONArray("errors");
+//        Assert.assertEquals("Account has no profile.",
+//                jsonResponse.get(0).toString());
+//    }
 
-    @Test
-    public void getUserProfileInvalid() throws Exception {
-        // Non-existent account with invalid account ID
-        MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/user/profile")
-                        .accept(MediaType.ALL)
-                        .param("accountID", invalidUUID.toString())
-                        .contentType(MediaType.ALL))
-                .andExpect(status().isNotAcceptable()).andReturn();
-        String content = result.getResponse().getContentAsString();
-        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
-        Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
-                jsonResponse.get(0).toString());
-
-        // Account with no profile
-        result = mvc.perform(
-                MockMvcRequestBuilders.post("/user/profile")
-                        .accept(MediaType.ALL)
-                        .param("accountID", testAccount1.getIdAccount().toString())
-                        .contentType(MediaType.ALL))
-                .andExpect(status().isNotAcceptable()).andReturn();
-        content = result.getResponse().getContentAsString();
-        jsonResponse = new JSONObject(content).getJSONArray("errors");
-        Assert.assertEquals("Account has no profile.",
-                jsonResponse.get(0).toString());
-    }
-
-    @Test
-    public void getUserProfileInvalidObject() throws Exception {
-        // Non-existent account with invalid account ID
-        MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/user/profile-account")
-                        .accept(MediaType.ALL)
-                        .content(accountObjectInvalid.toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotAcceptable()).andReturn();
-        String content = result.getResponse().getContentAsString();
-        JSONArray jsonResponse = new JSONObject(content).getJSONArray("errors");
-        Assert.assertEquals("Account ID " + invalidUUID.toString() + " doesn't exist.",
-                jsonResponse.get(0).toString());
-
-        // Account with no profile
-        accountObjectInvalid.put("idAccount", testAccount1.getIdAccount().toString());
-        result = mvc.perform(
-                MockMvcRequestBuilders.post("/user/profile-account")
-                        .accept(MediaType.ALL)
-                        .content(accountObjectInvalid.toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotAcceptable()).andReturn();
-        content = result.getResponse().getContentAsString();
-        jsonResponse = new JSONObject(content).getJSONArray("errors");
-        Assert.assertEquals("Account has no profile.",
-                jsonResponse.get(0).toString());
-    }
-
-    @Test
-    public void getUserProfileValidObject() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        Profile newProfile = mockedProfileRepository.save(new Profile());
-        MvcResult result = mvc.perform(
-                MockMvcRequestBuilders.post("/user/profile-account")
-                        .accept(MediaType.ALL)
-                        .content(accountObjectValid.toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
-        String content = result.getResponse().getContentAsString();
-        System.out.println(content);
-        JSONObject jsonResponse = new JSONObject(content).getJSONArray("entities").getJSONObject(0);
-        JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
-        JSONAssert.assertEquals(profile, jsonResponse, true);
-    }
+//    @Test
+//    public void getUserProfileValidObject() throws Exception {
+//        ObjectMapper mapper = new ObjectMapper();
+//        Profile newProfile = mockedProfileRepository.save(new Profile());
+//        MvcResult result = mvc.perform(
+//                MockMvcRequestBuilders.post("/user/profile-account")
+//                        .accept(MediaType.ALL)
+//                        .content(accountObjectValid.toString())
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk()).andReturn();
+//        String content = result.getResponse().getContentAsString();
+//        System.out.println(content);
+//        JSONObject jsonResponse = new JSONObject(content).getJSONArray("entities").getJSONObject(0);
+//        JSONObject profile = new JSONObject(mapper.writeValueAsString(newProfile));
+//        JSONAssert.assertEquals(profile, jsonResponse, true);
+//    }
 }
