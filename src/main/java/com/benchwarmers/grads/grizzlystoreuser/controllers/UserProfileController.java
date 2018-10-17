@@ -82,7 +82,7 @@ public class UserProfileController {
     }
 
 
-    @RequestMapping(value = "/update-profile", method = POST, consumes = MediaType.ALL_VALUE)
+    @RequestMapping(value = "/update-password", method = POST, consumes = MediaType.ALL_VALUE)
     public @ResponseBody
     ResponseEntity postUpdatedProfileDetails(@RequestBody String json) {
         JsonResponse response = new JsonResponse();
@@ -103,7 +103,8 @@ public class UserProfileController {
     public @ResponseBody
     ResponseEntity uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("firstName") String firstName,
                               @RequestParam("lastName") String lastName, @RequestParam("phone") String phone,
-                              @RequestHeader(value = "accountID") String accountID) {
+                              @RequestParam("accountID") String accountID) {
+
         JsonResponse response = new JsonResponse();
         Account account = account_repository.findByIdAccount(UUID.fromString(accountID));
         if (account == null) {
@@ -164,33 +165,6 @@ public class UserProfileController {
             createErrorMessage(response, "Your current Password didn't match.");
         }
 
-    }
-
-    private void updateAddress(JsonResponse response, JSONObject addressDetails, Profile profile) {
-
-        try {
-            Address address = address_repository.findAddressByProfile(profile);
-            String country = addressDetails.getString("country");
-            String city = addressDetails.getString("city");
-            String postcode = addressDetails.getString("postcode");
-            String streetType = addressDetails.getString("streetType");
-            String street = addressDetails.getString("street");
-            String streetNo = addressDetails.getString("streetNo");
-            String state = addressDetails.getString("state");
-            String unitNo = addressDetails.getString("unitNo");
-            address.setAddressCountry(country);
-            address.setAddressPostcode(postcode);
-            address.setAddressState(state);
-            address.setAddressCity(city);
-            address.setAddressStreet(street);
-            address.setAddressStreet(streetNo);
-            address.setAddressStreet(streetType);
-            address.setAddressStreet(unitNo);
-            address_repository.save(address);
-            response.setStatus(HttpStatus.OK);
-        } catch (Exception e) {
-            createErrorMessage(response, "Unable to update address. " + e.toString());
-        }
     }
 
 
