@@ -38,7 +38,7 @@ public class Account extends Data {
     private String accountPassword;
 
     @Column(name = "account_IsAdmin", nullable = false)
-    private boolean accountIsAdmin = false;
+    private boolean accountIsAdmin;
 
     @CreationTimestamp
     @Column(name = "DateTime", nullable = false)
