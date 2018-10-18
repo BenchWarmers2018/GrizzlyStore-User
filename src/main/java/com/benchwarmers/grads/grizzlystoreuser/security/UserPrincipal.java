@@ -24,7 +24,7 @@ public class UserPrincipal implements UserDetails {
     private String username;
 
 
-    private boolean isAdmin;
+    private boolean accountIsAdmin;
 
     @Autowired
     Profile_Repository profile_repository;
@@ -37,14 +37,14 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(UUID idAccount, String username, String accountEmailAddress, String password, Profile profile , Collection<? extends GrantedAuthority> authorities, boolean isAdmin) {
+    public UserPrincipal(UUID idAccount, String username, String accountEmailAddress, String password, Profile profile , Collection<? extends GrantedAuthority> authorities, boolean accountIsAdmin) {
         this.idAccount = idAccount;
         this.username = username;
         this.accountEmailAddress = accountEmailAddress;
         this.password = password;
         this.profile = profile;
         this.authorities = authorities;
-        this.isAdmin = isAdmin;
+        this.accountIsAdmin = accountIsAdmin;
     }
 
 
@@ -130,11 +130,11 @@ public class UserPrincipal implements UserDetails {
 
 
     public boolean isAdmin() {
-        return isAdmin;
+        return accountIsAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setAdmin(boolean accountIsAdmin) {
+        this.accountIsAdmin = accountIsAdmin;
     }
 
 }
