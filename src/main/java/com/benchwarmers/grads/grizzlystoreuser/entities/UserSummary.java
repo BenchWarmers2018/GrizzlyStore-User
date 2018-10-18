@@ -7,21 +7,21 @@ public class UserSummary {
     private UUID idAccount;
     private String accountEmailAddress;
     private Profile profile;
-    private boolean isAdmin;
+    private boolean accountIsAdmin;
 
-    public UserSummary(UUID idAccount, String accountEmailAddress, Profile profile, boolean isAdmin) {
+    public UserSummary(UUID idAccount, String accountEmailAddress, Profile profile, boolean accountIsAdmin) {
         this.idAccount = idAccount;
         this.accountEmailAddress = accountEmailAddress;
         this.profile = profile;
-        this.isAdmin = isAdmin;
+        this.accountIsAdmin = accountIsAdmin;
     }
 
     public boolean isAdmin() {
-        return isAdmin;
+        return accountIsAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setAdmin(boolean accountIsAdmin) {
+        this.accountIsAdmin = accountIsAdmin;
     }
 
     public UUID getIdAccount() {
@@ -36,7 +36,7 @@ public class UserSummary {
         return accountEmailAddress;
     }
 
-    public void setUsername(String accountEmailAddress) {
+    public void setAccountEmailAddress(String accountEmailAddress) {
         this.accountEmailAddress = accountEmailAddress;
     }
 
