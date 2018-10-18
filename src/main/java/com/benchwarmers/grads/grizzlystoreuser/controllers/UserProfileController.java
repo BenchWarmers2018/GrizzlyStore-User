@@ -116,23 +116,25 @@ public class UserProfileController {
             createErrorMessage(response, "Account has no profile.");
             return response.createResponse();
         }
-        if (!file.isEmpty()) {
-            try {
-                System.out.println("POST REQUEST ACCEPTED");
-                String uploadDir = "/opt/images/grizzlystore/profile/";
-                String filename = file.getOriginalFilename();
-                String filePath = uploadDir + filename;
-                if (!new File(uploadDir).exists()) {
-                    System.out.println("Directory does not exist");
-                    new File(uploadDir).mkdirs();
+        if(file != null) {
+            if (!file.isEmpty()) {
+                try {
+                    System.out.println("POST REQUEST ACCEPTED");
+                    String uploadDir = "/opt/images/grizzlystore/profile/";
+                    String filename = file.getOriginalFilename();
+                    String filePath = uploadDir + filename;
+                    if (!new File(uploadDir).exists()) {
+                        System.out.println("Directory does not exist");
+                        new File(uploadDir).mkdirs();
+                    }
+                    File dest = new File(filePath);
+                    file.transferTo(dest);
+                    profile.setProfileImage("http://bw.ausgrads.academy/images/grizzlystore/profile/" + filename);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                    createErrorMessage(response, "Unable to update user details. " + e.toString());
+                    return response.createResponse();
                 }
-                File dest = new File(filePath);
-                file.transferTo(dest);
-                profile.setProfileImage("http://bw.ausgrads.academy/images/grizzlystore/profile/" + filename);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                createErrorMessage(response, "Unable to update user details. " + e.toString());
-                return response.createResponse();
             }
         }
         profile.setProfileFirstName(firstName);
