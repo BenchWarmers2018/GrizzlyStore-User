@@ -38,6 +38,7 @@ public class Account extends Data {
     private String accountPassword;
 
     @Column(name = "account_IsAdmin", nullable = false)
+    @Type(type = "yes_no")
     private boolean accountIsAdmin;
 
     @CreationTimestamp
