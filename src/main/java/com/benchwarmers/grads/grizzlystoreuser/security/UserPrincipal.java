@@ -29,6 +29,13 @@ public class UserPrincipal implements UserDetails {
     @JsonIgnore
     private String accountEmailAddress;
 
+    //Add admin into this class
+
+
+
+
+    //Add admin into this class
+
     @JsonIgnore
     private String password;
 

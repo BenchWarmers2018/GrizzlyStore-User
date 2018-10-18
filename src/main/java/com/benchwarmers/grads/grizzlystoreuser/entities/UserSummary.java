@@ -7,6 +7,12 @@ public class UserSummary {
     private UUID id;
     private String username;
     private Profile profile;
+    //Add admin here.
+
+
+
+
+    //Add admin into this class
 
     public UserSummary(UUID id, String username, Profile profile) {
         this.id = id;
