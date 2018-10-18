@@ -4,30 +4,40 @@ import java.util.UUID;
 
 public class UserSummary {
 
-    private UUID id;
-    private String username;
+    private UUID idAccount;
+    private String accountEmailAddress;
     private Profile profile;
+    private boolean isAdmin;
 
-    public UserSummary(UUID id, String username, Profile profile) {
-        this.id = id;
-        this.username = username;
+    public UserSummary(UUID idAccount, String accountEmailAddress, Profile profile, boolean isAdmin) {
+        this.idAccount = idAccount;
+        this.accountEmailAddress = accountEmailAddress;
         this.profile = profile;
+        this.isAdmin = isAdmin;
     }
 
-    public UUID getId() {
-        return id;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
-    public String getUsername() {
-        return username;
+    public UUID getIdAccount() {
+        return idAccount;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setIdAccount(UUID idAccount) {
+        this.idAccount = idAccount;
+    }
+
+    public String getAccountEmailAddress() {
+        return accountEmailAddress;
+    }
+
+    public void setUsername(String accountEmailAddress) {
+        this.accountEmailAddress = accountEmailAddress;
     }
 
     public Profile getProfile() {
