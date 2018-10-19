@@ -58,7 +58,7 @@ public class AccountController {
         else
         {
             // Toggle admin status
-            userAccount.setAdminStatus(!userAccount.isAdmin());
+            userAccount.setAccountIsAdmin(!userAccount.isAccountIsAdmin());
             accountRepository.save(userAccount);
 
             response.setStatus(HttpStatus.OK);

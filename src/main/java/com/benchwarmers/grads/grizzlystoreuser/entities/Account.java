@@ -38,6 +38,14 @@ public class Account extends Data {
     private String accountPassword;
 
 
+    public boolean isAccountIsAdmin() {
+        return accountIsAdmin;
+    }
+
+    public void setAccountIsAdmin(boolean accountIsAdmin) {
+        this.accountIsAdmin = accountIsAdmin;
+    }
+
     @Column(columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean accountIsAdmin;
@@ -82,13 +90,6 @@ public class Account extends Data {
         this.accountPassword = account_Password;
     }
 
-    public boolean isAdmin() {
-        return accountIsAdmin;
-    }
-
-    public void setAdminStatus(boolean status) {
-        this.accountIsAdmin = status;
-    }
 
     public Date getLastModified() {
         return lastModified;

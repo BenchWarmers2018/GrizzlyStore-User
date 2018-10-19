@@ -33,7 +33,7 @@ public class TestController {
     {
         Account tempA = new Account();
         tempA.setAccountEmailAddress("pb07@gmail.com");
-        tempA.setAdminStatus(false);
+        tempA.setAccountIsAdmin(false);
         tempA.setAccountPassword("password");
 
         Profile tempP = new Profile();

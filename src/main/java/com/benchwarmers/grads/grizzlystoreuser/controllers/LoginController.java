@@ -95,7 +95,7 @@ public class LoginController {
             System.out.println("login/user: " + currentUser.toString());
 
         //Add admin into this class
-            UserSummary userSummary = new UserSummary(currentUser.getIdAccount(), currentUser.getUsername(), currentUser.getProfile());
+            UserSummary userSummary = new UserSummary(currentUser.getIdAccount(), currentUser.getUsername(), currentUser.getProfile(), currentUser.isAccountIsAdmin());
         //Add admin into this class
             return userSummary;
         }
