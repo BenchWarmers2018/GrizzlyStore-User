@@ -102,7 +102,7 @@ public class GrizzlystoreUserProfileTests {
         testAccount1.setIdAccount(UUID.randomUUID());
         testAccount1.setAccountEmailAddress("Anto@abc.com");
         testAccount1.setAccountPassword("1234");
-        testAccount1.setAdminStatus(false);
+        testAccount1.setAccountIsAdmin(false);
         testAccount1.setProfile(null);
         testAccount1.setLastModified(Date.from(Instant.now()));
 
@@ -111,7 +111,7 @@ public class GrizzlystoreUserProfileTests {
         testAccount2.setIdAccount(UUID.randomUUID());
         testAccount2.setAccountEmailAddress("paarth@abc.com");
         testAccount2.setAccountPassword("1234");
-        testAccount2.setAdminStatus(false);
+        testAccount2.setAccountIsAdmin(false);
         testAccount2.setLastModified(Date.from(Instant.now()));
         Mockito.when(mockedAccountRepository.save(Mockito.any(Account.class))).thenReturn(testAccount2);
     }
