@@ -56,6 +56,7 @@ public class RegisterController
         newUser.setAccountPassword(passwordEncoder.encode(user.getAccountPassword()));
         newUser.setAccountIsAdmin(user.isAccountIsAdmin());
 
+
         //Also need to check for .com at end of email
         //Function checks if email address already exists in database and that it passes the checks beforehand
         if(!accountRepository.existsByAccountEmailAddress(user.getAccountEmailAddress()) && emailCheck == false)
