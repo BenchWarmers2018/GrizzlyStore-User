@@ -37,8 +37,9 @@ public class Account extends Data {
     @Length(max=256, message="Passwords must be less than or equal to {max} characters")
     private String accountPassword;
 
-    @Column(name = "account_IsAdmin", nullable = false)
-    private boolean accountIsAdmin = false;
+    @Column(columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean accountIsAdmin;
 
     @CreationTimestamp
     @Column(name = "DateTime", nullable = false)

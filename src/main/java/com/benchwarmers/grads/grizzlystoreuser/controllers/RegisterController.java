@@ -54,7 +54,7 @@ public class RegisterController
         }
         //Password is set here as well as admin is set to false by default
         newUser.setAccountPassword(passwordEncoder.encode(user.getAccountPassword()));
-        newUser.setAdminStatus(false);
+        newUser.setAdminStatus(user.isAdmin());
 
         //Also need to check for .com at end of email
         //Function checks if email address already exists in database and that it passes the checks beforehand
