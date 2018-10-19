@@ -31,9 +31,6 @@ public class UserPrincipal implements UserDetails {
 
     //Add admin into this class
 
-
-
-
     //Add admin into this class
 
     @JsonIgnore
