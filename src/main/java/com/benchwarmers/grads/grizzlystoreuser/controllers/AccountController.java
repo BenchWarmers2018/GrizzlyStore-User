@@ -7,10 +7,7 @@ import com.benchwarmers.grads.grizzlystoreuser.repositories.Account_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +42,11 @@ public class AccountController {
 
     // Toggles the account's admin status
     @RequestMapping(path = "/toggleStatus", method = POST)
-    public ResponseEntity toggleAdminStatus(@RequestParam("idAccount") String idAccount)
+    public ResponseEntity toggleAdminStatus(@RequestBody Account account)
     {
         JsonResponse response = new JsonResponse();
 
-        Account userAccount = accountRepository.findByIdAccount(UUID.fromString(idAccount));
+        Account userAccount = accountRepository.findByIdAccount(account.getIdAccount());
 
         if (userAccount == null)
         {
